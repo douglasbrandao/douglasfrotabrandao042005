@@ -30,11 +30,36 @@ export class AuthService {
   logout(): void {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('tokenExpiration');
+    sessionStorage.removeItem('refreshTokenExpiration');
     this.token.set(null);
   }
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  isTokenExpiring(): boolean {
+    const expirationTime = sessionStorage.getItem('tokenExpiration');
+
+    if (!expirationTime) return true;
+    
+    const expiresAt = parseInt(expirationTime);
+    const now = Date.now();
+
+    // 30 segundos antes de expirar
+    const bufferTime = 30000;
+    
+    return now >= (expiresAt - bufferTime);
+  }
+
+  isRefreshTokenValid(): boolean {
+    const refreshExpiration = sessionStorage.getItem('refreshTokenExpiration');
+
+    if (!refreshExpiration) return false;
+    
+    const expiresAt = parseInt(refreshExpiration);
+    return Date.now() < expiresAt;
   }
 
   getToken(): string | null {
@@ -49,5 +74,11 @@ export class AuthService {
     sessionStorage.setItem('accessToken', response.accessToken);
     sessionStorage.setItem('refreshToken', response.refreshToken);
     this.token.set(response.accessToken);
+    
+    const expirationTime = Date.now() + (response.expiresIn * 1000);
+    sessionStorage.setItem('tokenExpiration', expirationTime.toString());
+    
+    const refreshExpirationTime = Date.now() + (response.refreshExpiresIn * 1000);
+    sessionStorage.setItem('refreshTokenExpiration', refreshExpirationTime.toString());
   }
 }
