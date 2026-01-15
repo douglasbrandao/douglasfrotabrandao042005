@@ -1,0 +1,44 @@
+<div>
+  <h1>Pet Manager</h1>
+  <p>Faça login para continuar</p>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="username">Usuário</label>
+      <input
+        id="username"
+        type="text"
+        formControlName="username"
+        placeholder="Digite seu usuário"
+      />
+      @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
+        <div>Usuário é obrigatório</div>
+      }
+    </div>
+
+    <div>
+      <label for="password">Senha</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="Digite sua senha"
+      />
+      @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+        <div>Senha é obrigatória</div>
+      }
+    </div>
+
+    @if (errorMessage()) {
+      <div>{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" [disabled]="loading() || loginForm.invalid">
+      @if (!loading()) {
+        <span>Entrar</span>
+      } @else {
+        <span>Carregando...</span>
+      }
+    </button>
+  </form>
+</div>

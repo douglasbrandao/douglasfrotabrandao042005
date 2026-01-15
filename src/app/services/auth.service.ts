@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthRequest, AuthResponse } from '../models/auth.model';
 
@@ -9,9 +9,8 @@ import { AuthRequest, AuthResponse } from '../models/auth.model';
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private tokenSubject = new BehaviorSubject<string | null>(this.getToken());
   
-  public token$ = this.tokenSubject.asObservable();
+  public token = signal<string | null>(this.getToken());
 
   login(credentials: AuthRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${environment.apiUrl}/autenticacao/login`, credentials)
@@ -31,7 +30,7 @@ export class AuthService {
   logout(): void {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('refreshToken');
-    this.tokenSubject.next(null);
+    this.token.set(null);
   }
 
   isAuthenticated(): boolean {
@@ -49,6 +48,6 @@ export class AuthService {
   private setTokens(response: AuthResponse): void {
     sessionStorage.setItem('accessToken', response.accessToken);
     sessionStorage.setItem('refreshToken', response.refreshToken);
-    this.tokenSubject.next(response.accessToken);
+    this.token.set(response.accessToken);
   }
 }
