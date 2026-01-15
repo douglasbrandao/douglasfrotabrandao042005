@@ -71,14 +71,14 @@ export class AuthService {
   }
 
   private setTokens(response: AuthResponse): void {
-    sessionStorage.setItem('accessToken', response.accessToken);
-    sessionStorage.setItem('refreshToken', response.refreshToken);
-    this.token.set(response.accessToken);
+    sessionStorage.setItem('accessToken', response.access_token);
+    sessionStorage.setItem('refreshToken', response.refresh_token);
+    this.token.set(response.access_token);
     
-    const expirationTime = Date.now() + (response.expiresIn * 1000);
+    const expirationTime = Date.now() + (response.expires_in * 1000);
     sessionStorage.setItem('tokenExpiration', expirationTime.toString());
     
-    const refreshExpirationTime = Date.now() + (response.refreshExpiresIn * 1000);
+    const refreshExpirationTime = Date.now() + (response.refresh_expires_in * 1000);
     sessionStorage.setItem('refreshTokenExpiration', refreshExpirationTime.toString());
   }
 }
