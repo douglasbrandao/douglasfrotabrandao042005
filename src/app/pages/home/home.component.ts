@@ -29,12 +29,9 @@ export class HomeComponent {
 
   constructor() {
     this.loadPets();
-    
     effect(() => {
-      const page = this.currentPage();
-      if (page > 1) {
-        this.loadPets();
-      }
+      this.currentPage();
+      this.loadPets();
     });
   }
 
