@@ -1,3 +1,4 @@
+
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -25,6 +26,8 @@ export class HomeComponent {
   pageSize = signal(10);
   totalItems = signal(0);
 
+  searchName = signal('');
+
   totalPages = computed(() => Math.ceil(this.totalItems() / this.pageSize()));
 
   constructor() {
@@ -41,7 +44,8 @@ export class HomeComponent {
 
     this.petService.list({ 
       page: this.currentPage() - 1, 
-      size: this.pageSize() 
+      size: this.pageSize(),
+      nome: this.searchName().trim() || undefined
     }).subscribe({
       next: (response) => {
         this.pets.set(response.content || []);
@@ -54,6 +58,11 @@ export class HomeComponent {
         console.error('Erro ao carregar pets:', error);
       }
     });
+  }
+  onSearchNameChange(value: string) {
+    this.searchName.set(value);
+    this.currentPage.set(1);
+    this.loadPets();
   }
 
   changePage(page: number): void {

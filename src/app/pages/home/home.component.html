@@ -1,9 +1,18 @@
 
 <div class="min-h-screen py-8 px-2 sm:px-6">
   <div class="max-w-4xl mx-auto">
-    <div class="flex items-center justify-between mb-8">
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--color-secondary)]">Pet Manager</h1>
-      <button (click)="logout()" class="btn-secondary">Sair</button>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 text-center sm:text-left">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--color-secondary)] w-full sm:w-auto">Pet Manager</h1>
+      <div class="flex flex-col sm:flex-row flex-1 gap-2 items-center justify-center sm:justify-end w-full">
+        <input
+          type="text"
+          class="input-base flex-1 max-w-xs"
+          placeholder="Buscar por nome do pet..."
+          [value]="searchName()"
+          (input)="onSearchNameChange($event.target.value)"
+        />
+        <button (click)="logout()" class="btn-secondary">Sair</button>
+      </div>
     </div>
 
     @if (loading()) {
