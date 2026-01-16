@@ -1,19 +1,17 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { PetService } from '../../services/pet.service';
 import { Pet } from '../../models/pet.model';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-pet-list',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './pet-list.component.html',
+  styleUrls: ['./pet-list.component.scss']
 })
-export class HomeComponent {
-  private authService = inject(AuthService);
+export class PetListComponent {
   private petService = inject(PetService);
   private router = inject(Router);
 
@@ -65,10 +63,5 @@ export class HomeComponent {
 
   viewDetails(id: number): void {
     this.router.navigate(['/pets', id]);
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }
