@@ -12,6 +12,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
   },
   {
+    path: 'pet/:id',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/pet-detail/pet-detail.component').then(m => m.PetDetailComponent)
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'

@@ -1,0 +1,34 @@
+<div class="min-h-screen py-12 px-2 flex items-center justify-center">
+  <div class="w-full max-w-3xl flex flex-col items-center justify-center">
+    <button (click)="goBack()" class="btn-secondary mb-8 self-start">
+      ← Voltar
+    </button>
+    @if (loading()) {
+      <div class="flex justify-center items-center py-12 text-lg text-[var(--color-secondary)]">Carregando...</div>
+    }
+    @if (errorMessage()) {
+      <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-center">{{ errorMessage() }}</div>
+    }
+    @if (pet() && !loading()) {
+      <div class="card-base bg-white w-full max-w-2xl mx-auto p-10 flex flex-col items-center gap-8 shadow-2xl">
+        <h1 class="text-5xl font-extrabold text-[var(--color-secondary)] text-center mb-2">{{ pet()?.nome }}</h1>
+        @if (pet()?.foto?.url) {
+          <img [src]="pet()?.foto?.url" [alt]="pet()?.nome" class="w-40 h-40 object-cover rounded-full border-4 border-[var(--color-primary)] bg-white shadow mb-4" />
+        } @else {
+          <div class="w-40 h-40 flex items-center justify-center rounded-full border-4 border-dashed border-[var(--color-primary)] bg-white text-[var(--color-secondary)]/60 text-lg mb-4">Sem foto</div>
+        }
+        <div class="w-full flex flex-col gap-4 text-[var(--color-secondary)]/90 text-lg">
+          <p><span class="font-semibold">Raça:</span> {{ pet()?.raca }}</p>
+          <p><span class="font-semibold">Idade:</span> {{ pet()?.idade }} anos</p>
+        </div>
+        @if (tutor()) {
+          <div class="w-full border-t pt-6 mt-4">
+            <h2 class="text-2xl font-bold text-[var(--color-primary)] mb-2">Tutor</h2>
+            <p class="text-lg"><span class="font-semibold">Nome:</span> {{ tutor()?.nome }}</p>
+            <p class="text-lg"><span class="font-semibold">Contato:</span> {{ tutor()?.contato }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

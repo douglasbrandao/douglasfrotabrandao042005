@@ -21,6 +21,7 @@ export interface Tutor {
   telefone: string;
   endereco: string;
   cpf: number;
+  contato?: string;
   foto?: PetFoto;
   pets?: Pet[];
 }

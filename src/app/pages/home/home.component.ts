@@ -70,7 +70,7 @@ export class HomeComponent {
   }
 
   viewDetails(id: number): void {
-    this.router.navigate(['/pets', id]);
+    this.router.navigate(['/pet', id]);
   }
 
   logout(): void {
