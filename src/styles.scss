@@ -50,3 +50,8 @@ html, body {
 .input-base {
   @apply w-full px-3 py-2 sm:px-4 sm:py-3 border-2 border-[var(--color-accent)] rounded-xl focus:outline-none focus:border-[var(--color-primary)] bg-white/80 text-sm sm:text-base;
 }
+
+// Utilitários de Header
+.header-base {
+  @apply w-full py-6 px-4 bg-white/80 shadow flex items-center justify-between mb-8;
+}
