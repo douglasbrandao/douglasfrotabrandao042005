@@ -9,6 +9,20 @@
   --color-light: #EFE1B5;
 }
 
+html, body {
+  min-height: 100vh;
+  background-color: var(--color-light);
+  background-image: linear-gradient(to bottom right, var(--color-light), var(--color-primary), var(--color-accent));
+  background-attachment: fixed;
+}
+
+:root {
+  --color-primary: #5DD3B6;
+  --color-secondary: #6E5034;
+  --color-accent: #CDB885;
+  --color-light: #EFE1B5;
+}
+
 // Utilitários de Botão
 .btn-primary {
   @apply bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-200;
