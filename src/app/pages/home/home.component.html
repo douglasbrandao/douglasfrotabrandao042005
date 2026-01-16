@@ -1,67 +1,66 @@
-<div>
-  <div>
-    <h1>Lista de Pets</h1>
-    <div>
-      <button (click)="logout()">Sair</button>
+
+<div class="min-h-screen bg-gradient-to-br from-[var(--color-light)] via-[var(--color-primary)] to-[var(--color-accent)] py-8 px-2 sm:px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--color-secondary)]">Pet Manager</h1>
+      <button (click)="logout()" class="btn-secondary">Sair</button>
     </div>
-  </div>
 
-  @if (loading()) {
-    <div>Carregando...</div>
-  }
+    @if (loading()) {
+      <div class="flex justify-center items-center py-12 text-lg text-[var(--color-secondary)]">Carregando...</div>
+    }
 
-  @if (errorMessage()) {
-    <div>{{ errorMessage() }}</div>
-  }
+    @if (errorMessage()) {
+      <div class="alert-error">{{ errorMessage() }}</div>
+    }
 
-  @if (!loading() && pets().length === 0) {
-    <div>
-      <p>Nenhum pet encontrado.</p>
-    </div>
-  }
+    @if (!loading() && pets().length === 0) {
+      <div class="text-center text-[var(--color-secondary)]/80 py-12">Nenhum pet encontrado.</div>
+    }
 
-  @if (!loading() && pets().length > 0) {
-    <div>
-      @for (pet of pets(); track pet.id) {
-        <div>
-          @if (pet.foto?.url) {
-            <img [src]="pet.foto?.url" [alt]="pet.nome">
-          } @else {
-            <div>Sem foto</div>
-          }
-          
-          <div>
-            <h3>{{ pet.nome }}</h3>
-            <p><strong>Raça:</strong> {{ pet.raca }}</p>
-            <p><strong>Idade:</strong> {{ pet.idade }} anos</p>
-            @if (pet.tutores && pet.tutores.length > 0) {
-              <p><strong>Tutor:</strong> {{ pet.tutores[0].nome }}</p>
-            }
+    @if (!loading() && pets().length > 0) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        @for (pet of pets(); track pet.id) {
+          <div class="card-base flex flex-col sm:flex-row items-center gap-4 p-4 sm:p-6 w-full max-w-md mx-auto">
+            <div class="flex-shrink-0">
+              @if (pet.foto?.url) {
+                <img [src]="pet.foto?.url" [alt]="pet.nome" class="w-24 h-24 object-cover rounded-full border-4 border-[var(--color-primary)] bg-white shadow" />
+              } @else {
+                <div class="w-24 h-24 flex items-center justify-center rounded-full border-4 border-dashed border-[var(--color-primary)] bg-white text-[var(--color-secondary)]/60 text-xs">Sem foto</div>
+              }
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-xl font-bold text-[var(--color-secondary)] truncate">{{ pet.nome }}</h3>
+              <p class="text-[var(--color-secondary)]/80"><span class="font-semibold">Raça:</span> {{ pet.raca }}</p>
+              <p class="text-[var(--color-secondary)]/80"><span class="font-semibold">Idade:</span> {{ pet.idade }} anos</p>
+              @if (pet.tutores && pet.tutores.length > 0) {
+                <p class="text-[var(--color-secondary)]/80"><span class="font-semibold">Tutor:</span> {{ pet.tutores[0].nome }}</p>
+              }
+            </div>
+            <div class="flex flex-col gap-2">
+              <button (click)="viewDetails(pet.id)" class="btn-primary">Ver</button>
+            </div>
           </div>
+        }
+      </div>
 
-          <div>
-            <button (click)="viewDetails(pet.id)">Ver</button>
-          </div>
+      @if (totalPages() > 1) {
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+          <button 
+            (click)="changePage(currentPage() - 1)" 
+            [disabled]="currentPage() === 1"
+            class="btn-secondary" >
+            Anterior
+          </button>
+          <span class="text-[var(--color-secondary)] font-medium">Página {{ currentPage() }} de {{ totalPages() }}</span>
+          <button 
+            (click)="changePage(currentPage() + 1)" 
+            [disabled]="currentPage() === totalPages()"
+            class="btn-secondary" >
+            Próxima
+          </button>
         </div>
       }
-    </div>
-
-    @if (totalPages() > 1) {
-      <div>
-        <button 
-          (click)="changePage(currentPage() - 1)" 
-          [disabled]="currentPage() === 1">
-          Anterior
-        </button>
-        
-        <span>Página {{ currentPage() }} de {{ totalPages() }}</span>
-        
-        <button 
-          (click)="changePage(currentPage() + 1)" 
-          [disabled]="currentPage() === totalPages()">
-          Próxima
-        </button>
-      </div>
     }
-  }
+  </div>
 </div>
