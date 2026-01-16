@@ -1,44 +1,65 @@
-<div>
-  <h1>Pet Manager</h1>
-  <p>Faça login para continuar</p>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="username">Usuário</label>
-      <input
-        id="username"
-        type="text"
-        formControlName="username"
-        placeholder="Digite seu usuário"
-      />
-      @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
-        <div>Usuário é obrigatório</div>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--color-light)] via-[var(--color-primary)] to-[var(--color-accent)] p-2 sm:p-4">
+  <div class="card-base">
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6 sm:space-y-7">
+      <div>
+        <label for="username" class="block text-xs sm:text-sm font-semibold text-[var(--color-secondary)] mb-2 tracking-wide">
+          Usuário
+        </label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          placeholder="Digite seu usuário"
+          class="input-base"
+          [class.border-red-500]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+        />
+        @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
+          <div class="text-red-500 text-xs mt-1">Usuário é obrigatório</div>
+        }
+      </div>
+
+      <div>
+        <label for="password" class="block text-xs sm:text-sm font-semibold text-[var(--color-secondary)] mb-2 tracking-wide">
+          Senha
+        </label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Digite sua senha"
+          class="input-base"
+          [class.border-red-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        />
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <div class="text-red-500 text-xs mt-1">Senha é obrigatória</div>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="bg-red-50/80 border-l-4 border-red-500 p-3 sm:p-4 rounded-xl">
+          <p class="text-red-700 text-xs sm:text-sm">{{ errorMessage() }}</p>
+        </div>
       }
-    </div>
 
-    <div>
-      <label for="password">Senha</label>
-      <input
-        id="password"
-        type="password"
-        formControlName="password"
-        placeholder="Digite sua senha"
-      />
-      @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-        <div>Senha é obrigatória</div>
-      }
-    </div>
-
-    @if (errorMessage()) {
-      <div>{{ errorMessage() }}</div>
-    }
-
-    <button type="submit" [disabled]="loading() || loginForm.invalid">
-      @if (!loading()) {
-        <span>Entrar</span>
-      } @else {
-        <span>Carregando...</span>
-      }
-    </button>
-  </form>
+      <button 
+        type="submit" 
+        [disabled]="loading() || loginForm.invalid"
+        class="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-2 sm:py-3 rounded-xl transition-all duration-300 hover:scale-105 text-sm sm:text-base"
+      >
+        @if (!loading()) {
+          <span>Entrar</span>
+        } @else {
+          <span class="flex items-center justify-center">
+            <svg class="animate-spin -ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Carregando...
+          </span>
+        }
+      </button>
+    </form>
+  </div>
 </div>

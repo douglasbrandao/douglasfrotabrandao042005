@@ -1,5 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+@use 'tailwindcss';
+
+:root {
+  --color-primary: #5DD3B6;
+  --color-secondary: #6E5034;
+  --color-accent: #CDB885;
+  --color-light: #EFE1B5;
+}
+
+.card-base {
+  @apply backdrop-blur-xl bg-white/70 border border-[var(--color-primary)] rounded-3xl shadow-2xl w-full max-w-md sm:p-10 p-4 relative overflow-visible;
+}
+
+.input-base {
+  @apply w-full px-3 py-2 sm:px-4 sm:py-3 border-2 border-[var(--color-accent)] rounded-xl focus:outline-none focus:border-[var(--color-primary)] bg-white/80 text-sm sm:text-base;
+}
