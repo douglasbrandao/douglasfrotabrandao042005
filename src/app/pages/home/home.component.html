@@ -52,7 +52,7 @@
       </div>
 
       @if (totalPages() > 1) {
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 mb-16">
           <button 
             (click)="changePage(currentPage() - 1)" 
             [disabled]="currentPage() === 1"
