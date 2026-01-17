@@ -12,7 +12,7 @@
       <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-center">{{ errorMessage() }}</div>
     }
     @if (pet() && !loading()) {
-      <div class="card-base bg-white w-full max-w-2xl mx-auto p-10 flex flex-col items-center gap-8 shadow-2xl">
+      <div class="card-base bg-white w-full max-w-2xl mx-auto p-10 flex flex-col items-center gap-8 shadow-2xl mb-12">
         <h1 class="text-5xl font-extrabold text-[var(--color-secondary)] text-center mb-2">{{ pet()?.nome }}</h1>
         @if (pet()?.foto?.url) {
           <img [src]="pet()?.foto?.url" [alt]="pet()?.nome" class="w-40 h-40 object-cover rounded-full border-4 border-[var(--color-primary)] bg-white shadow mb-4" />
