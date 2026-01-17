@@ -1,8 +1,11 @@
 <div class="w-full px-2 mt-8">
   <div class="w-full max-w-3xl mx-auto">
-    <div class="flex items-center mb-8">
+    <div class="flex items-center gap-4 mb-8">
       <button (click)="goBack()" class="btn-secondary">
         ← Voltar
+      </button>
+      <button (click)="openEditModal()" class="btn-primary">
+        Editar pet
       </button>
     </div>
     @if (loading()) {
@@ -11,6 +14,27 @@
     @if (errorMessage()) {
       <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-center">{{ errorMessage() }}</div>
     }
+    <app-modal [open]="isEditModalOpen()" (close)="closeEditModal()" width="max-w-md">
+      <h2 class="text-2xl font-bold mb-4 text-[var(--color-primary)]">Editar pet</h2>
+      <form [formGroup]="editForm" (ngSubmit)="submitEdit()" class="space-y-4">
+        <div>
+          <label class="block text-sm font-semibold mb-1">Nome</label>
+          <input type="text" formControlName="nome" class="input-base w-full" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Idade</label>
+          <input type="number" formControlName="idade" class="input-base w-full" min="0" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Raça</label>
+          <input type="text" formControlName="raca" class="input-base w-full" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" (click)="closeEditModal()" class="btn-secondary">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar</button>
+        </div>
+      </form>
+    </app-modal>
     @if (pet() && !loading()) {
       <div class="card-base bg-white w-full max-w-2xl mx-auto p-10 flex flex-col items-center gap-8 shadow-2xl mb-12">
         <h1 class="text-5xl font-extrabold text-[var(--color-secondary)] text-center mb-2">{{ pet()?.nome }}</h1>

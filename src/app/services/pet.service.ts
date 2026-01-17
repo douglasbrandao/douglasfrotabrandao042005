@@ -34,4 +34,8 @@ export class PetService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  update(id: number, data: Partial<Pet>): Observable<Pet> {
+    return this.http.put<Pet>(`${this.apiUrl}/${id}`, data);
+  }
 }
