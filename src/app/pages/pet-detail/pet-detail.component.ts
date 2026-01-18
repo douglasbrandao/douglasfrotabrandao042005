@@ -1,8 +1,9 @@
 import { Location } from '@angular/common';
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../shared/modal/modal.component';
+import { AvatarComponent } from '../../shared/avatar/avatar.component';
 import { ActivatedRoute } from '@angular/router';
 import { PetService } from '../../services/pet.service';
 import { TutorService } from '../../services/tutor.service';
@@ -11,7 +12,7 @@ import { Pet, Tutor } from '../../models/pet.model';
 @Component({
   selector: 'app-pet-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, ModalComponent, AvatarComponent],
   templateUrl: './pet-detail.component.html',
   styleUrls: ['./pet-detail.component.scss']
 })
@@ -29,6 +30,9 @@ export class PetDetailComponent {
   editForm!: FormGroup;
 
   private fb = inject(FormBuilder);
+  
+  avatarPreview = signal<string | null>(null);
+  avatarFile: File | null = null;
 
   constructor() {
     this.editForm = this.fb.group({
@@ -91,17 +95,49 @@ export class PetDetailComponent {
     const data = this.editForm.value;
     this.petService.update(id, data).subscribe({
       next: (updatedPet: Pet) => {
-        this.pet.set(updatedPet);
-        this.editForm.patchValue({
-          nome: updatedPet.nome || '',
-          idade: updatedPet.idade || '',
-          raca: updatedPet.raca || ''
-        });
-        this.closeEditModal();
+        if (this.avatarFile) {
+          this.petService.uploadPhoto(id, this.avatarFile).subscribe({
+            next: () => {
+              this.petService.getById(id).subscribe({
+                next: (updatedPet: Pet) => {
+                  this.pet.set(updatedPet);
+                  this.avatarPreview.set(null);
+                  this.avatarFile = null;
+                  this.closeEditModal();
+                },
+                error: () => {
+                  this.errorMessage.set('Erro ao atualizar dados do pet.');
+                }
+              });
+            },
+            error: () => {
+              this.errorMessage.set('Erro ao enviar foto.');
+            }
+          });
+        } else {
+          this.pet.set(updatedPet);
+          this.closeEditModal();
+        }
       },
       error: () => {
         this.errorMessage.set('Erro ao editar pet.');
       }
     });
   }
+  
+  onAvatarChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.avatarFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.avatarPreview.set(e.target.result);
+      };
+      if (this.avatarFile) {
+        reader.readAsDataURL(this.avatarFile);
+      }
+    }
+  }
+
+  avatarSrc = computed(() => this.avatarPreview() || this.pet()?.foto?.url || null);
 }
