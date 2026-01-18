@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthRequest, AuthResponse } from '../models/auth.model';
@@ -21,7 +21,9 @@ export class AuthService {
 
   refresh(): Observable<AuthResponse> {
     const refreshToken = this.getRefreshToken();
-    return this.http.put<AuthResponse>(`${environment.apiUrl}/autenticacao/refresh`, { refreshToken })
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${refreshToken ?? ''}`);
+
+    return this.http.put<AuthResponse>(`${environment.apiUrl}/autenticacao/refresh`, null, { headers })
       .pipe(
         tap(response => this.setTokens(response))
       );
