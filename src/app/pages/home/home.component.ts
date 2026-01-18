@@ -1,6 +1,7 @@
 
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AvatarComponent } from '../../shared/avatar/avatar.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PetService } from '../../services/pet.service';
@@ -9,7 +10,7 @@ import { Pet } from '../../models/pet.model';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AvatarComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

@@ -30,11 +30,7 @@
         @for (pet of pets(); track pet.id) {
           <div class="card-base flex flex-col sm:flex-row items-center gap-4 p-4 sm:p-6 w-full max-w-md mx-auto">
             <div class="flex-shrink-0">
-              @if (pet.foto?.url) {
-                <img [src]="pet.foto?.url" [alt]="pet.nome" class="w-24 h-24 object-cover rounded-full border-4 border-[var(--color-primary)] bg-white shadow" />
-              } @else {
-                <div class="w-24 h-24 flex items-center justify-center rounded-full border-4 border-dashed border-[var(--color-primary)] bg-white text-[var(--color-secondary)]/60 text-xs">Sem foto</div>
-              }
+              <app-avatar [src]="pet.foto?.url ?? null" [alt]="pet.nome || ''" size="md">Sem foto</app-avatar>
             </div>
             <div class="flex-1 min-w-0">
               <h3 class="text-xl font-bold text-[var(--color-secondary)] truncate">{{ pet.nome }}</h3>

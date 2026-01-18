@@ -38,4 +38,10 @@ export class PetService {
   update(id: number, data: Partial<Pet>): Observable<Pet> {
     return this.http.put<Pet>(`${this.apiUrl}/${id}`, data);
   }
+  
+  uploadPhoto(id: number, file: File): Observable<Pet> {
+    const formData = new FormData();
+    formData.append('foto', file);
+    return this.http.post<Pet>(`${this.apiUrl}/${id}/fotos`, formData);
+  }
 }
