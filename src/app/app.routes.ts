@@ -22,6 +22,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/pet-create/pet-create.component').then(m => m.PetCreateComponent)
   },
   {
+    path: 'tutor-create',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/tutor-create/tutor-create.component').then(m => m.TutorCreateComponent)
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'

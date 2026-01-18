@@ -1,0 +1,67 @@
+<div class="w-full px-2 mt-8">
+  <div class="w-full max-w-3xl mx-auto">
+    <h1 class="text-4xl font-extrabold text-[var(--color-secondary)] text-center mb-8">Cadastrar novo tutor</h1>
+    <form [formGroup]="tutorForm" (ngSubmit)="submit()" class="space-y-4 max-w-md mx-auto">
+      <div class="flex flex-col items-center gap-2 mb-2">
+        <label class="block text-sm font-semibold mb-1">Foto do tutor</label>
+        <div class="relative">
+          <app-avatar [src]="avatarPreview()" [alt]="tutorForm.get('name')?.value || ''" size="md">Sem foto</app-avatar>
+          <input type="file" accept="image/*" (change)="onAvatarChange($event)" class="absolute inset-0 opacity-0 cursor-pointer w-24 h-24" />
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Nome completo</label>
+        <input type="text" formControlName="name" class="input-base w-full" [class.border-red-500]="tutorForm.get('name')?.invalid && (tutorForm.get('name')?.touched || tutorForm.get('name')?.dirty)" />
+        @if (tutorForm.get('name')?.invalid && (tutorForm.get('name')?.touched || tutorForm.get('name')?.dirty)) {
+          <div class="text-xs text-red-600 mt-1">Nome obrigatório</div>
+        }
+        @if (tutorForm.get('name')?.errors?.['minlength'] && (tutorForm.get('name')?.touched || tutorForm.get('name')?.dirty)) {
+          <div class="text-xs text-red-600 mt-1">Nome muito curto</div>
+        }
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Telefone</label>
+        <input type="text" formControlName="phone" class="input-base w-full" [class.border-red-500]="tutorForm.get('phone')?.invalid && (tutorForm.get('phone')?.touched || tutorForm.get('phone')?.dirty)" />
+        @if (tutorForm.get('phone')?.invalid && (tutorForm.get('phone')?.touched || tutorForm.get('phone')?.dirty)) {
+          <div class="text-xs text-red-600 mt-1">Telefone obrigatório</div>
+        }
+        @if (tutorForm.get('phone')?.errors?.['pattern'] && (tutorForm.get('phone')?.touched || tutorForm.get('phone')?.dirty)) {
+          <div class="text-xs text-red-600 mt-1">Formato inválido — exemplos válidos: 65999999999 ou 6599999999</div>
+        }
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Endereço</label>
+        <input type="text" formControlName="address" class="input-base w-full" [class.border-red-500]="tutorForm.get('address')?.invalid && (tutorForm.get('address')?.touched || tutorForm.get('address')?.dirty)" />
+        @if (tutorForm.get('address')?.invalid && (tutorForm.get('address')?.touched || tutorForm.get('address')?.dirty)) {
+          <div class="text-xs text-red-600 mt-1">Endereço obrigatório</div>
+        }
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Pets</label>
+        <input type="text" class="input-base w-full mb-2" placeholder="Buscar pet..." (input)="onPetSearch($event.target.value)" />
+        <div class="rounded-xl p-3 bg-gray-50">
+          <div class="mb-3">
+            <span class="text-sm text-[var(--color-secondary)]/70">Pets disponíveis</span>
+          </div>
+          <select multiple class="input-base w-full bg-white h-40" (change)="onSelectPets($event)">
+            @for (pet of filteredPets(); track pet.id) {
+              <option [value]="pet.id" [selected]="selectedPets().includes(pet.id)">{{ pet.nome }}</option>
+            }
+          </select>
+          @if (selectedPets().length === 0) {
+            <div class="text-xs text-[var(--color-secondary)]/60 mt-1">Nenhum pet selecionado</div>
+          } @else {
+            <div class="text-xs text-[var(--color-secondary)]/70 mt-1">{{ selectedPets().length }} pet(s) selecionado(s)</div>
+          }
+          @if (tutorForm.get('pets')?.touched && tutorForm.get('pets')?.invalid) {
+            <div class="text-xs text-red-600 mt-1">Selecione ao menos um pet</div>
+          }
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 mb-8">
+        <button type="button" (click)="cancel()" class="btn-secondary">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="tutorForm.invalid">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>

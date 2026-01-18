@@ -14,4 +14,22 @@ export class TutorService {
   getById(id: number): Observable<Tutor> {
     return this.http.get<Tutor>(`${this.apiUrl}/${id}`);
   }
+
+  create(data: Partial<Tutor>): Observable<Tutor> {
+    return this.http.post<Tutor>(this.apiUrl, data);
+  }
+
+  uploadPhoto(id: number, file: File): Observable<Tutor> {
+    const formData = new FormData();
+    formData.append('foto', file);
+    return this.http.post<Tutor>(`${this.apiUrl}/${id}/fotos`, formData);
+  }
+
+  linkPet(tutorId: number, petId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${tutorId}/pets/${petId}`, {});
+  }
+
+  unlinkPet(tutorId: number, petId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${tutorId}/pets/${petId}`);
+  }
 }
