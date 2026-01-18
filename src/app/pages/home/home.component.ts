@@ -32,7 +32,6 @@ export class HomeComponent {
   totalPages = computed(() => Math.ceil(this.totalItems() / this.pageSize()));
 
   constructor() {
-    this.loadPets();
     effect(() => {
       this.currentPage();
       this.loadPets();
