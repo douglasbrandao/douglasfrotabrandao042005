@@ -1,0 +1,42 @@
+<div class="w-full px-2 mt-8">
+  <div class="w-full max-w-3xl mx-auto">
+    <h1 class="text-4xl font-extrabold text-[var(--color-secondary)] text-center mb-8">Cadastrar novo pet</h1>
+    <form [formGroup]="petForm" (ngSubmit)="submit()" class="space-y-4 max-w-md mx-auto">
+      <div class="flex flex-col items-center gap-2 mb-2">
+        <label class="block text-sm font-semibold mb-1">Foto do pet</label>
+        <div class="relative">
+          <app-avatar [src]="avatarPreview()" [alt]="petForm.get('nome')?.value || ''" size="md">Sem foto</app-avatar>
+          <input type="file" accept="image/*" (change)="onAvatarChange($event)" class="absolute inset-0 opacity-0 cursor-pointer w-24 h-24" />
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Nome</label>
+        <input type="text" formControlName="nome" class="input-base w-full" [class.border-red-500]="petForm.get('nome')?.invalid && (petForm.get('nome')?.touched || petForm.get('nome')?.dirty)" />
+        @if (petForm.get('nome')?.invalid && (petForm.get('nome')?.touched || petForm.get('nome')?.dirty)) {
+          <div class="text-red-500 text-xs mt-1">Nome é obrigatório</div>
+        }
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Idade</label>
+        <input type="number" formControlName="idade" class="input-base w-full" min="0" [class.border-red-500]="petForm.get('idade')?.invalid && (petForm.get('idade')?.touched || petForm.get('idade')?.dirty)" />
+        @if (petForm.get('idade')?.invalid && (petForm.get('idade')?.touched || petForm.get('idade')?.dirty)) {
+          <div class="text-red-500 text-xs mt-1">
+            @if (petForm.get('idade')?.errors?.['required']) {Idade é obrigatória}
+            @if (petForm.get('idade')?.errors?.['min']) {Idade deve ser maior ou igual a 0}
+          </div>
+        }
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Raça</label>
+        <input type="text" formControlName="raca" class="input-base w-full" [class.border-red-500]="petForm.get('raca')?.invalid && (petForm.get('raca')?.touched || petForm.get('raca')?.dirty)" />
+        @if (petForm.get('raca')?.invalid && (petForm.get('raca')?.touched || petForm.get('raca')?.dirty)) {
+          <div class="text-red-500 text-xs mt-1">Raça é obrigatória</div>
+        }
+      </div>
+      <div class="flex justify-end gap-2 pt-2 mb-8">
+        <button type="button" (click)="cancel()" class="btn-secondary">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="petForm.invalid">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>

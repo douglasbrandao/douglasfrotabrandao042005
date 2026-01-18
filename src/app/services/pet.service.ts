@@ -39,6 +39,10 @@ export class PetService {
     return this.http.put<Pet>(`${this.apiUrl}/${id}`, data);
   }
   
+  create(data: Partial<Pet>): Observable<Pet> {
+    return this.http.post<Pet>(this.apiUrl, data);
+  }
+  
   uploadPhoto(id: number, file: File): Observable<Pet> {
     const formData = new FormData();
     formData.append('foto', file);

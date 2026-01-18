@@ -16,4 +16,8 @@ export class HeaderComponent {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  goToCreatePet() {
+    this.router.navigate(['/pet-create']);
+  }
 }
