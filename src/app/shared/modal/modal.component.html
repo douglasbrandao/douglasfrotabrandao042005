@@ -1,8 +1,10 @@
 @if (open) {
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 transition-all duration-300">
     <div class="bg-white rounded-xl shadow-xl p-6 w-full relative" [ngClass]="width">
-      <button (click)="close.emit()" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl">×</button>
-      <ng-content></ng-content>
-    </div>
+        <button (click)="close.emit()" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl z-50">×</button>
+        <div class="max-h-[80vh] overflow-auto">
+          <ng-content></ng-content>
+        </div>
+      </div>
   </div>
 }
