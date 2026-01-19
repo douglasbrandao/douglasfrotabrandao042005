@@ -1,69 +1,8 @@
 
-<div class="min-h-screen px-2 sm:px-6">
-  <div class="max-w-4xl mx-auto">
-    <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 mt-4 text-center sm:text-left">
-      <div class="flex flex-1 justify-center sm:justify-start w-full">
-        <input
-          type="text"
-          class="input-base flex-1 max-w-xs"
-          placeholder="Buscar por nome do pet..."
-          [value]="searchName()"
-          (input)="onSearchNameChange($event.target.value)"
-        />
-      </div>
-    </div>
+<div class="min-h-screen flex items-start justify-center pt-16">
+  <div class="max-w-xl w-full flex flex-col sm:flex-row gap-6 justify-center px-4 mt-6">
+    <button type="button" class="btn-secondary btn-large" (click)="goToTutors()" aria-label="Listar tutores">Listar tutores</button>
 
-    @if (loading()) {
-      <div class="flex justify-center items-center py-12 text-lg text-[var(--color-secondary)]">Carregando...</div>
-    }
-
-    @if (errorMessage()) {
-      <div class="alert-error">{{ errorMessage() }}</div>
-    }
-
-    @if (!loading() && pets().length === 0) {
-      <div class="text-center text-[var(--color-secondary)]/80 py-12">Nenhum pet encontrado.</div>
-    }
-
-    @if (!loading() && pets().length > 0) {
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        @for (pet of pets(); track pet.id) {
-          <div class="card-base flex flex-col sm:flex-row items-center gap-4 p-4 sm:p-6 w-full max-w-md mx-auto">
-            <div class="flex-shrink-0">
-              <app-avatar [src]="pet.foto?.url ?? null" [alt]="pet.nome || ''" size="md">Sem foto</app-avatar>
-            </div>
-            <div class="flex-1 min-w-0">
-              <h3 class="text-xl font-bold text-[var(--color-secondary)] truncate">{{ pet.nome }}</h3>
-              <p class="text-[var(--color-secondary)]/80"><span class="font-semibold">Raça:</span> {{ pet.raca }}</p>
-              <p class="text-[var(--color-secondary)]/80"><span class="font-semibold">Idade:</span> {{ pet.idade }} anos</p>
-              @if (pet.tutores && pet.tutores.length > 0) {
-                <p class="text-[var(--color-secondary)]/80"><span class="font-semibold">Tutor:</span> {{ pet.tutores[0].nome }}</p>
-              }
-            </div>
-            <div class="flex flex-col gap-2">
-              <button (click)="viewDetails(pet.id)" class="btn-primary">Ver Pet</button>
-            </div>
-          </div>
-        }
-      </div>
-
-      @if (totalPages() > 1) {
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 mb-16">
-          <button 
-            (click)="changePage(currentPage() - 1)" 
-            [disabled]="currentPage() === 1"
-            class="btn-secondary" >
-            Anterior
-          </button>
-          <span class="text-[var(--color-secondary)] font-medium">Página {{ currentPage() }} de {{ totalPages() }}</span>
-          <button 
-            (click)="changePage(currentPage() + 1)" 
-            [disabled]="currentPage() === totalPages()"
-            class="btn-secondary" >
-            Próxima
-          </button>
-        </div>
-      }
-    }
+    <button type="button" class="btn-secondary btn-large" (click)="goToPets()" aria-label="Listar pets">Listar pets</button>
   </div>
 </div>

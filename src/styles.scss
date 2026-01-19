@@ -55,3 +55,15 @@ html, body {
 .header-base {
   @apply w-full py-6 px-4 bg-white/80 shadow flex items-center justify-between mb-8;
 }
+
+.btn-large {
+  @apply px-8 py-4 text-lg rounded-2xl shadow-xl flex items-center justify-center gap-3 transition-transform duration-200 transform;
+}
+
+.btn-large:hover {
+  @apply -translate-y-1 scale-105;
+}
+
+.btn-large .icon {
+  @apply text-white opacity-95 w-5 h-5;
+}
