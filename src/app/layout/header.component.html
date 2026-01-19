@@ -1,6 +1,8 @@
 
 <header class="header-base flex items-center justify-between gap-4">
-  <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--color-secondary)] tracking-tight">Pet Manager</h1>
+  <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--color-secondary)] tracking-tight">
+    <a routerLink="/home" class="text-inherit">Pet Manager</a>
+  </h1>
   @if (authService.token()) {
     <div class="flex gap-2">
       <button (click)="goToCreatePet()" class="btn-primary">Cadastrar pet</button>
