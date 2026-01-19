@@ -17,6 +17,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/pet-list/pet-list.component').then(m => m.PetListComponent)
   },
   {
+    path: 'tutors',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/tutor-list/tutor-list.component').then(m => m.TutorListComponent)
+  },
+  {
     path: 'pet/:id',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/pet-detail/pet-detail.component').then(m => m.PetDetailComponent)

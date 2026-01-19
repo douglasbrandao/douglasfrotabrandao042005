@@ -40,3 +40,18 @@ export interface PetFilterParams {
   page?: number;
   size?: number;
 }
+
+export interface TutorFilterParams {
+  nome?: string;
+  email?: string;
+  page?: number;
+  size?: number;
+}
+
+export interface TutorListResponse {
+  content: Tutor[];
+  total: number;
+  page: number;
+  size: number;
+  pageCount: number;
+}
