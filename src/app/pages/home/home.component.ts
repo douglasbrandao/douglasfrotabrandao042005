@@ -14,7 +14,7 @@ export class HomeComponent {
   private router = inject(Router);
 
   goToTutors() {
-    this.router.navigate(['/tutores']);
+    this.router.navigate(['/tutors']);
   }
 
   goToPets() {
