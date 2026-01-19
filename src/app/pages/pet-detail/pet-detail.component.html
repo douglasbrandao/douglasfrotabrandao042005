@@ -56,11 +56,17 @@
           <p><span class="font-semibold">Raça:</span> {{ pet()?.raca }}</p>
           <p><span class="font-semibold">Idade:</span> {{ pet()?.idade }} anos</p>
         </div>
-        @if (tutor()) {
+        @if (tutors() && tutors().length > 0) {
           <div class="w-full border-t pt-6 mt-4">
-            <h2 class="text-2xl font-bold text-[var(--color-primary)] mb-2">Tutor</h2>
-            <p class="text-lg"><span class="font-semibold">Nome:</span> {{ tutor()?.nome }}</p>
-            <p class="text-lg"><span class="font-semibold">Contato:</span> {{ tutor()?.contato }}</p>
+            <h2 class="text-2xl font-bold text-[var(--color-primary)] mb-2">Tutores</h2>
+            <ul class="list-disc ml-5 mt-2 text-[var(--color-secondary)]/80">
+              @for (t of tutors(); track t.id) {
+                <li>
+                  <a [routerLink]="['/tutor', t.id]" class="text-[var(--color-primary)] hover:underline">{{ t.nome }}</a>
+                  <span class="text-[var(--color-secondary)]/70"> — {{ t.telefone }}</span>
+                </li>
+              }
+            </ul>
           </div>
         }
       </div>

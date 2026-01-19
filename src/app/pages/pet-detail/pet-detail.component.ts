@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule, RouterLink } from '@angular/router';
 import { PetService } from '../../services/pet.service';
 import { TutorService } from '../../services/tutor.service';
 import { Pet, Tutor } from '../../models/pet.model';
@@ -12,7 +12,7 @@ import { Pet, Tutor } from '../../models/pet.model';
 @Component({
   selector: 'app-pet-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ModalComponent, AvatarComponent],
+  imports: [CommonModule, ReactiveFormsModule, ModalComponent, AvatarComponent, RouterModule, RouterLink],
   templateUrl: './pet-detail.component.html',
   styleUrls: ['./pet-detail.component.scss']
 })
@@ -23,7 +23,7 @@ export class PetDetailComponent {
   private tutorService = inject(TutorService);
 
   pet = signal<Pet | null>(null);
-  tutor = signal<Tutor | null>(null);
+  tutors = signal<Tutor[]>([]);
   loading = signal(true);
   errorMessage = signal('');
   showEditModal = signal(false);
@@ -57,13 +57,8 @@ export class PetDetailComponent {
           raca: pet.raca || ''
         });
         if (pet.tutores && pet.tutores.length > 0) {
-          this.tutorService.getById(pet.tutores[0].id).subscribe({
-            next: (tutor: Tutor) => {
-              const contato = [tutor.telefone, tutor.email].filter(Boolean).join(' | ');
-              this.tutor.set({ ...tutor, contato });
-            },
-            error: () => this.tutor.set(null)
-          });
+          const tutors = pet.tutores as Tutor[];
+          this.tutors.set(tutors.map(t => ({ ...t })));
         }
       },
       error: () => {
