@@ -11,8 +11,6 @@ export class PetService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/v1/pets`;
 
-  allPets = signal<Pet[]>([]);
-
   list(filters: PetFilterParams = {}): Observable<PetListResponse> {
     let params = new HttpParams()
       .set('page', (filters.page ?? 0).toString())
@@ -49,15 +47,5 @@ export class PetService {
     const formData = new FormData();
     formData.append('foto', file);
     return this.http.post<Pet>(`${this.apiUrl}/${id}/fotos`, formData);
-  }
-
-  /**
-  *  Workaround: Busca uma grande quantidade de pets e salva em memória
-  */
-  fetchAllPets(): void {
-    this.http.get<PetListResponse>(`${this.apiUrl}?page=0&size=9999`).subscribe({
-      next: (res: PetListResponse) => this.allPets.set(res.content || []),
-      error: () => this.allPets.set([])
-    });
   }
 }

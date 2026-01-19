@@ -6,6 +6,7 @@ import { AvatarComponent } from '../../shared/avatar/avatar.component';
 import { PetService } from '../../services/pet.service';
 import { TutorService } from '../../services/tutor.service';
 import { Router } from '@angular/router';
+import { Pet } from '../../models/pet.model';
 
 @Component({
   selector: 'app-tutor-create',
@@ -30,17 +31,21 @@ export class TutorCreateComponent {
   avatarPreview = signal<string | null>(null);
   avatarFile: File | null = null;
 
+  allPets = signal<Pet[]>([]);
   selectedPets = signal<number[]>([]);
   petSearch = signal('');
   filteredPets = computed(() => {
     const q = this.petSearch().trim().toLowerCase();
-    const all = this.petService.allPets ? this.petService.allPets() : [];
+    const all = this.allPets ? this.allPets() : [];
     if (!q) return all;
     return all.filter(p => p.nome.toLowerCase().includes(q));
   });
 
   constructor() {
-    this.petService.fetchAllPets();
+    this.petService.list({ size: 9999 }).subscribe({
+      next: (res) => this.allPets.set(res.content || []),
+      error: (err) => console.error('Erro ao carregar pets:', err)
+    });
   }
 
   onSelectPets(event: Event) {
