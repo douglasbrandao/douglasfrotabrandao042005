@@ -5,34 +5,34 @@
       <div class="flex flex-col items-center gap-2 mb-2">
         <label class="block text-sm font-semibold mb-1">Foto do tutor</label>
         <div class="relative">
-          <app-avatar [src]="avatarPreview()" [alt]="tutorForm.get('name')?.value || ''" size="md">Sem foto</app-avatar>
-          <input type="file" accept="image/*" (change)="onAvatarChange($event)" class="absolute inset-0 opacity-0 cursor-pointer w-24 h-24" />
+          <app-avatar [src]="avatarPreview()" [alt]="tutorForm.get('nome')?.value || ''" size="md">Sem foto</app-avatar>
+          <input type="file" accept="image/*" (change)="onAvatarChange($event)" class="absolute inset-0 opacity-0 cursor-pointer" />
         </div>
       </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Nome completo</label>
-        <input type="text" formControlName="name" class="input-base w-full" [class.border-red-500]="tutorForm.get('name')?.invalid && (tutorForm.get('name')?.touched || tutorForm.get('name')?.dirty)" />
-        @if (tutorForm.get('name')?.invalid && (tutorForm.get('name')?.touched || tutorForm.get('name')?.dirty)) {
+        <input type="text" formControlName="nome" class="input-base w-full" [class.border-red-500]="tutorForm.get('nome')?.invalid && (tutorForm.get('nome')?.touched || tutorForm.get('nome')?.dirty)" />
+        @if (tutorForm.get('nome')?.invalid && (tutorForm.get('nome')?.touched || tutorForm.get('nome')?.dirty)) {
           <div class="text-xs text-red-600 mt-1">Nome obrigatório</div>
         }
-        @if (tutorForm.get('name')?.errors?.['minlength'] && (tutorForm.get('name')?.touched || tutorForm.get('name')?.dirty)) {
+        @if (tutorForm.get('nome')?.errors?.['minlength'] && (tutorForm.get('nome')?.touched || tutorForm.get('nome')?.dirty)) {
           <div class="text-xs text-red-600 mt-1">Nome muito curto</div>
         }
       </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Telefone</label>
-        <input type="text" formControlName="phone" class="input-base w-full" [class.border-red-500]="tutorForm.get('phone')?.invalid && (tutorForm.get('phone')?.touched || tutorForm.get('phone')?.dirty)" />
-        @if (tutorForm.get('phone')?.invalid && (tutorForm.get('phone')?.touched || tutorForm.get('phone')?.dirty)) {
+        <input type="text" formControlName="telefone" class="input-base w-full" [class.border-red-500]="tutorForm.get('telefone')?.invalid && (tutorForm.get('telefone')?.touched || tutorForm.get('telefone')?.dirty)" />
+        @if (tutorForm.get('telefone')?.invalid && (tutorForm.get('telefone')?.touched || tutorForm.get('telefone')?.dirty)) {
           <div class="text-xs text-red-600 mt-1">Telefone obrigatório</div>
         }
-        @if (tutorForm.get('phone')?.errors?.['pattern'] && (tutorForm.get('phone')?.touched || tutorForm.get('phone')?.dirty)) {
+        @if (tutorForm.get('telefone')?.errors?.['pattern'] && (tutorForm.get('telefone')?.touched || tutorForm.get('telefone')?.dirty)) {
           <div class="text-xs text-red-600 mt-1">Formato inválido — exemplos válidos: 65999999999 ou 6599999999</div>
         }
       </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Endereço</label>
-        <input type="text" formControlName="address" class="input-base w-full" [class.border-red-500]="tutorForm.get('address')?.invalid && (tutorForm.get('address')?.touched || tutorForm.get('address')?.dirty)" />
-        @if (tutorForm.get('address')?.invalid && (tutorForm.get('address')?.touched || tutorForm.get('address')?.dirty)) {
+        <input type="text" formControlName="endereco" class="input-base w-full" [class.border-red-500]="tutorForm.get('endereco')?.invalid && (tutorForm.get('endereco')?.touched || tutorForm.get('endereco')?.dirty)" />
+        @if (tutorForm.get('endereco')?.invalid && (tutorForm.get('endereco')?.touched || tutorForm.get('endereco')?.dirty)) {
           <div class="text-xs text-red-600 mt-1">Endereço obrigatório</div>
         }
       </div>

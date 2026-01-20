@@ -22,9 +22,9 @@ export class TutorCreateComponent {
   private router = inject(Router);
 
   tutorForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    phone: ['', [Validators.required, Validators.pattern(/^[0-9]{2}[0-9]{8,9}$/)]],
-    address: ['', Validators.required],
+    nome: ['', [Validators.required, Validators.minLength(2)]],
+    telefone: ['', [Validators.required, Validators.pattern(/^[0-9]{2}[0-9]{8,9}$/)]],
+    endereco: ['', Validators.required],
     pets: [[], Validators.required]
   });
 
@@ -65,8 +65,8 @@ export class TutorCreateComponent {
       this.tutorForm.get('pets')?.markAsTouched();
       return;
     }
-    const { name, phone, address } = this.tutorForm.value;
-    this.tutorService.create({ nome: name, telefone: phone, endereco: address }).subscribe({
+    const { nome, telefone, endereco } = this.tutorForm.value;
+    this.tutorService.create({ nome, telefone, endereco }).subscribe({
       next: (tutor) => {
         if (this.avatarFile && tutor.id) {
           this.tutorService.uploadPhoto(tutor.id, this.avatarFile).subscribe();
@@ -74,7 +74,7 @@ export class TutorCreateComponent {
         for (const petId of this.selectedPets()) {
           this.tutorService.linkPet(tutor.id, petId).subscribe();
         }
-        this.router.navigate(['/']);
+        this.router.navigate(['/tutor', tutor.id]);
       },
       error: () => {}
     });
