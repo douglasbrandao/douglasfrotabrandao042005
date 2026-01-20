@@ -1,59 +1,85 @@
-# PetManager
+# Pet Manager
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
+Projeto de SPA em Angular (v21) para gerenciar pets e tutores — com Docker e Nginx.
 
-## Development server
+## Dados de Inscrição
+- **Nome:** Douglas Frota Brandão
+- **Vaga pretendida:** Analista de Tecnologia da Informação - Engenheiro da Computação Sênior
+- **Número da inscrição:** Atualizar quando fizer a inscrição
 
-To start a local development server, run:
+## Resumo
 
-```bash
-ng serve
+- Framework: Angular 21 (standalone components)
+- Build: multi-stage Dockerfile — build com `node` e runtime em `nginx`
+- Estrutura principal:
+
+```
+src/
+├── app/
+│   ├── guards/       # controla rotas específicas
+│   ├── services/     # mantém a comunicação com a api
+│   ├── pages/        # páginas (standalone components)
+│   ├── shared/       # componentes/serviços reutilizáveis
+│   └── app.routes.ts # declara as rotas carregando os componentes
+└── environments/
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Arquivos importantes:
 
-## Code scaffolding
+- Dockerfile — multi-stage build para gerar imagem final com Nginx
+- docker/nginx/default.conf — config do Nginx (SPA + Health Check)
+- docker-compose.yml — build
+- Makefile: `make up`, `make down`, `make logs`, `make health`
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Como executar
 
-```bash
-ng generate component component-name
-```
+Pré-requisitos (local): `node` (v18+), `npm`, ou `docker` + `docker compose`.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+1) Execução em ambiente dev
 
 ```bash
-ng build
+# instalar dependências
+npm ci
+
+# rodar em modo dev
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+2) Build de produção
 
 ```bash
-ng test
+npm run build -- --configuration=production
+# artefatos fica em dist/pet-manager/browser
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+3) Usando Docker Compose
 
 ```bash
-ng e2e
+# sobe a imagem e inicia os containers
+make up
+
+# logs
+make logs
+
+# health
+make health
+
+# derrubar
+make down
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Observações:
+- O `docker-compose.yml` mapeia a porta `8080` do host para `80` do container — acesse `http://localhost:8080`.
+- A imagem final contém apenas os assets estáticos e Nginx. O `HEALTHCHECK` consulta `/health`.
 
-## Additional Resources
+## Testes
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Falta criar os testes
+
+```bash
+# executar testes unitários
+npm test
+
+# com coverage
+npm test -- --coverage
+```
