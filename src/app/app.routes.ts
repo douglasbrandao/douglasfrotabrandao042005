@@ -22,6 +22,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/tutor-list/tutor-list.component').then(m => m.TutorListComponent)
   },
   {
+    path: 'tutor/:id',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/tutor-detail/tutor-detail.component').then(m => m.TutorDetailComponent)
+  },
+  {
     path: 'pet/:id',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/pet-detail/pet-detail.component').then(m => m.PetDetailComponent)

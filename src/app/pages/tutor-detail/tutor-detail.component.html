@@ -1,0 +1,82 @@
+<div class="min-h-screen px-2 sm:px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex items-center gap-4 mb-8">
+      <button (click)="back()" class="btn-secondary">← Voltar</button>
+      <button (click)="openEdit()" class="btn-primary">Editar tutor</button>
+    </div>
+
+    @if (loading()) {
+      <div class="flex justify-center items-center py-12 text-lg text-[var(--color-secondary)]">Carregando...</div>
+    }
+
+    @if (errorMessage()) {
+      <div class="alert-error">{{ errorMessage() }}</div>
+    }
+
+    @if (!loading() && tutor()) {
+      <div class="card-base bg-white w-full max-w-2xl mx-auto p-10 flex flex-col items-center gap-8 shadow-2xl mb-12">
+          <h1 class="text-5xl font-extrabold text-[var(--color-secondary)] text-center mb-2">{{ tutor()?.nome ?? '' }}</h1>
+          <app-avatar [src]="avatarSrc()" [alt]="tutor()?.nome ?? ''" size="lg">Sem foto</app-avatar>
+            <div class="w-full flex flex-col gap-1 text-[var(--color-secondary)]/90 text-lg">
+            <p><span class="font-semibold">Telefone:</span> {{ tutor()?.telefone }}</p>
+            <p><span class="font-semibold">Endereço:</span> {{ tutor()?.endereco ?? '' }}</p>
+          </div>
+          @if ((tutor()?.pets ?? []).length > 0) {
+          <div class="w-full border-t pt-6 mt-4">
+            <h2 class="text-2xl font-bold text-[var(--color-primary)] mb-2">Pets</h2>
+            <ul class="list-disc ml-5 mt-2 text-[var(--color-secondary)]/80">
+                @for (p of tutor()?.pets ?? []; track p?.id) {
+                <li>
+                    <a [routerLink]="['/pet', p?.id]" class="text-[var(--color-primary)] hover:underline">{{ p?.nome ?? '' }}</a>
+                    <span class="text-[var(--color-secondary)]/70"> — {{ p?.raca ?? '' }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+
+      @if (showEdit()) {
+        <app-modal [open]="showEdit()" (close)="closeEdit()">
+          <div class="p-2">
+            <h3 class="text-xl font-bold mb-4">Editar tutor</h3>
+            <form (ngSubmit)="save()" [formGroup]="editForm" class="grid grid-cols-1 gap-4">
+              <div class="flex flex-col items-center gap-2 mb-2">
+                <label class="block text-sm font-semibold mb-1">Foto do tutor</label>
+                <div class="relative">
+                  <app-avatar [src]="avatarSrc()" [alt]="editForm.get('nome')?.value || ''" size="md">Sem foto</app-avatar>
+                  <input type="file" accept="image/*" (change)="onAvatarChange($event)" class="absolute inset-0 opacity-0 cursor-pointer w-24 h-24" />
+                </div>
+              </div>
+              <div>
+                <label class="label">Nome</label>
+                <input class="input-base" formControlName="nome" />
+              </div>
+              <div>
+                <label class="label">Telefone</label>
+                <input class="input-base" formControlName="telefone" />
+              </div>
+              <div>
+                <label class="label">Endereço</label>
+                <input class="input-base" formControlName="endereco" />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">Pets</label>
+                <input type="text" class="input-base w-full mb-2" placeholder="Buscar pet..." (input)="onPetSearch($event.target.value)" />
+                <select multiple class="input-base w-full bg-white h-40" (change)="onSelectPets($event)">
+                  @for (pet of filteredPets(); track pet.id) {
+                    <option [value]="pet.id" [selected]="selectedPets().includes(pet.id)">{{ pet.nome }}</option>
+                  }
+                </select>
+              </div>
+              <div class="flex justify-end gap-2 pt-2">
+                <button type="button" (click)="closeEdit()" class="btn-secondary">Cancelar</button>
+                <button type="submit" class="btn-primary">Salvar</button>
+              </div>
+            </form>
+          </div>
+        </app-modal>
+      }
+    }
+  </div>
+</div>
