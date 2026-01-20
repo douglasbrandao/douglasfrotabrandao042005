@@ -5,11 +5,13 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PetService } from '../../services/pet.service';
 import { Pet } from '../../models/pet.model';
+import { usePagination } from '../../shared/use-pagination';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
 
 @Component({
   selector: 'app-pet-list',
   standalone: true,
-  imports: [CommonModule, AvatarComponent],
+  imports: [CommonModule, AvatarComponent, PaginationComponent],
   templateUrl: './pet-list.component.html',
   styleUrls: ['./pet-list.component.scss']
 })
@@ -22,17 +24,13 @@ export class PetListComponent {
   loading = signal(false);
   errorMessage = signal('');
   
-  currentPage = signal(1);
-  pageSize = signal(10);
-  totalItems = signal(0);
+  pagination = usePagination({ initialPage: 1, initialSize: 10 });
 
   searchName = signal('');
 
-  totalPages = computed(() => Math.ceil(this.totalItems() / this.pageSize()));
-
   constructor() {
     effect(() => {
-      this.currentPage();
+      this.pagination.currentPage();
       this.loadPets();
     });
   }
@@ -42,13 +40,13 @@ export class PetListComponent {
     this.errorMessage.set('');
 
     this.petService.list({ 
-      page: this.currentPage() - 1, 
-      size: this.pageSize(),
+      page: this.pagination.currentPage() - 1, 
+      size: this.pagination.pageSize(),
       nome: this.searchName().trim() || undefined
     }).subscribe({
       next: (response) => {
         this.pets.set(response.content || []);
-        this.totalItems.set(response.total || 0);
+        this.pagination.setTotal(response.total || 0);
         this.loading.set(false);
       },
       error: (error) => {
@@ -60,12 +58,12 @@ export class PetListComponent {
   }
   onSearchNameChange(value: string) {
     this.searchName.set(value);
-    this.currentPage.set(1);
+    this.pagination.setPage(1);
     this.loadPets();
   }
 
   changePage(page: number): void {
-    this.currentPage.set(page);
+    this.pagination.setPage(page);
   }
 
   viewDetails(id: number): void {

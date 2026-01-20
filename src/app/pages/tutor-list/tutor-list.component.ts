@@ -5,11 +5,13 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TutorService } from '../../services/tutor.service';
 import { Tutor, TutorListResponse } from '../../models/pet.model';
+import { usePagination } from '../../shared/use-pagination';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
 
 @Component({
   selector: 'app-tutor-list',
   standalone: true,
-  imports: [CommonModule, AvatarComponent],
+  imports: [CommonModule, AvatarComponent, PaginationComponent],
   templateUrl: './tutor-list.component.html',
   styleUrls: ['./tutor-list.component.scss']
 })
@@ -22,17 +24,13 @@ export class TutorListComponent {
   loading = signal(false);
   errorMessage = signal('');
   
-  currentPage = signal(1);
-  pageSize = signal(10);
-  totalItems = signal(0);
+  pagination = usePagination({ initialPage: 1, initialSize: 10 });
 
   searchName = signal('');
 
-  totalPages = computed(() => Math.ceil(this.totalItems() / this.pageSize()));
-
   constructor() {
     effect(() => {
-      this.currentPage();
+      this.pagination.currentPage();
       this.loadTutors();
     });
   }
@@ -42,13 +40,13 @@ export class TutorListComponent {
     this.errorMessage.set('');
 
     this.tutorService.list({
-      page: this.currentPage() - 1,
-      size: this.pageSize(),
+      page: this.pagination.currentPage() - 1,
+      size: this.pagination.pageSize(),
       nome: this.searchName().trim() || undefined
     }).subscribe({
       next: (response: TutorListResponse) => {
         this.tutors.set(response.content || []);
-        this.totalItems.set(response.total || 0);
+        this.pagination.setTotal(response.total || 0);
         this.loading.set(false);
       },
       error: (error: any) => {
@@ -61,12 +59,12 @@ export class TutorListComponent {
 
   onSearchNameChange(value: string) {
     this.searchName.set(value);
-    this.currentPage.set(1);
+    this.pagination.setPage(1);
     this.loadTutors();
   }
 
   changePage(page: number): void {
-    this.currentPage.set(page);
+    this.pagination.setPage(page);
   }
 
   viewDetails(id: number): void {
