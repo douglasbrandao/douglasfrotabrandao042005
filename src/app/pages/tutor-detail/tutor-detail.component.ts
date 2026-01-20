@@ -1,7 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { TutorService } from '../../services/tutor.service';
 import { PetService } from '../../services/pet.service';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
@@ -21,7 +20,6 @@ import { Pet, Tutor } from '../../models/pet.model';
 export class TutorDetailComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private authService = inject(AuthService);
   private tutorService = inject(TutorService);
   private petService = inject(PetService);
   private fb = inject(FormBuilder);
@@ -199,8 +197,4 @@ export class TutorDetailComponent {
     this.router.navigate(['/tutors']);
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
 }

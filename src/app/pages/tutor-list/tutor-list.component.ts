@@ -2,7 +2,6 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { TutorService } from '../../services/tutor.service';
 import { Tutor, TutorListResponse } from '../../models/pet.model';
 import { usePagination } from '../../shared/use-pagination';
@@ -16,7 +15,6 @@ import { PaginationComponent } from '../../shared/pagination/pagination.componen
   styleUrls: ['./tutor-list.component.scss']
 })
 export class TutorListComponent {
-  private authService = inject(AuthService);
   private tutorService = inject(TutorService);
   private router = inject(Router);
 
@@ -71,8 +69,4 @@ export class TutorListComponent {
     this.router.navigate(['/tutor', id]);
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
 }

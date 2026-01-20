@@ -2,7 +2,6 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { PetService } from '../../services/pet.service';
 import { Pet } from '../../models/pet.model';
 import { usePagination } from '../../shared/use-pagination';
@@ -16,7 +15,6 @@ import { PaginationComponent } from '../../shared/pagination/pagination.componen
   styleUrls: ['./pet-list.component.scss']
 })
 export class PetListComponent {
-  private authService = inject(AuthService);
   private petService = inject(PetService);
   private router = inject(Router);
 
@@ -70,8 +68,4 @@ export class PetListComponent {
     this.router.navigate(['/pet', id]);
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
 }
