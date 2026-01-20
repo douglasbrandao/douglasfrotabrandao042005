@@ -33,11 +33,11 @@ export class PetCreateComponent {
       next: (pet) => {
         if (this.avatarFile && pet.id) {
           this.petService.uploadPhoto(pet.id, this.avatarFile).subscribe({
-            next: () => this.router.navigate(['/']),
-            error: () => this.router.navigate(['/'])
+            next: () => this.router.navigate(['/pet', pet.id]),
+            error: () => this.router.navigate(['/pet', pet.id])
           });
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/pet', pet.id]);
         }
       },
       error: () => {}
