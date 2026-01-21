@@ -42,7 +42,7 @@ Pré-requisitos (local): `node` (v18+), `npm`, ou `docker` + `docker compose`.
 npm ci
 
 # rodar em modo dev
-npm start
+ng serve
 ```
 
 2) Build de produção
@@ -74,12 +74,7 @@ Observações:
 
 ## Testes
 
-Falta criar os testes
-
 ```bash
-# executar testes unitários
-npm test
-
-# com coverage
-npm test -- --coverage
+# executar testes unitários localmente
+ng test
 ```
