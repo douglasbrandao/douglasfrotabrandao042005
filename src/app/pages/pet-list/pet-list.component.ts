@@ -1,6 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
+import { DebounceDirective } from '../../shared/debounce/debounce.directive';
 import { Router } from '@angular/router';
 import { PetService } from '../../services/pet.service';
 import { Pet } from '../../models/pet.model';
@@ -10,7 +11,7 @@ import { PaginationComponent } from '../../shared/pagination/pagination.componen
 @Component({
   selector: 'app-pet-list',
   standalone: true,
-  imports: [CommonModule, AvatarComponent, PaginationComponent],
+  imports: [CommonModule, AvatarComponent, PaginationComponent, DebounceDirective],
   templateUrl: './pet-list.component.html',
   styleUrls: ['./pet-list.component.scss']
 })
@@ -57,7 +58,6 @@ export class PetListComponent {
   onSearchNameChange(value: string) {
     this.searchName.set(value);
     this.pagination.setPage(1);
-    this.loadPets();
   }
 
   changePage(page: number): void {

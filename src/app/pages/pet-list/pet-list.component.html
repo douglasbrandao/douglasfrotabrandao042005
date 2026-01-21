@@ -7,7 +7,9 @@
           class="input-base flex-1 max-w-xs"
           placeholder="Buscar por nome do pet..."
           [value]="searchName()"
-          (input)="onSearchNameChange($event.target.value)"
+          debounce
+          [debounceTime]="600"
+          (debounced)="onSearchNameChange($event)"
         />
       </div>
     </div>

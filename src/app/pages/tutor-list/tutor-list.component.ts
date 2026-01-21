@@ -6,11 +6,12 @@ import { TutorService } from '../../services/tutor.service';
 import { Tutor, TutorListResponse } from '../../models/pet.model';
 import { usePagination } from '../../shared/use-pagination';
 import { PaginationComponent } from '../../shared/pagination/pagination.component';
+import { DebounceDirective } from '../../shared/debounce/debounce.directive';
 
 @Component({
   selector: 'app-tutor-list',
   standalone: true,
-  imports: [CommonModule, AvatarComponent, PaginationComponent],
+  imports: [CommonModule, AvatarComponent, PaginationComponent, DebounceDirective],
   templateUrl: './tutor-list.component.html',
   styleUrls: ['./tutor-list.component.scss']
 })
@@ -58,7 +59,6 @@ export class TutorListComponent {
   onSearchNameChange(value: string) {
     this.searchName.set(value);
     this.pagination.setPage(1);
-    this.loadTutors();
   }
 
   changePage(page: number): void {
