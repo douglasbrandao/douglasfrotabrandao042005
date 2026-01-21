@@ -1,23 +1,30 @@
-import { TestBed } from '@angular/core/testing';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { App } from './app';
+import { provideRouter } from '@angular/router';
 
 describe('App', () => {
+
+  let fixture: ComponentFixture<App>;
+  let component: App;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [provideRouter([])],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(App);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('deve criar o app', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
+  it('deve renderizar o título', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, pet-manager');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Pet Manager');
   });
 });
