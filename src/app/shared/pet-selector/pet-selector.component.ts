@@ -49,17 +49,45 @@ export class PetSelectorComponent {
 
   selectedIds = signal<number[]>([]);
 
-  filteredPets = computed(() => {
+  filteredPets = computed(() => this.getOrderedPets());
+
+  private getOrderedPets(): Pet[] {
     const q = this.q().trim().toLowerCase();
     const all = this.petsSignal() || [];
-    if (!q) return all;
-    return all.filter(p => p.nome.toLowerCase().includes(q));
-  });
+
+    const filtered = this.filterByName(all, q);
+    const selected = this.selectedIds() || [];
+    const selectedPets = this.getSelectedPets(filtered, selected);
+    const unselectedPets = this.getUnselectedPets(filtered, selected);
+    return [...selectedPets, ...unselectedPets];
+  }
+
+  private filterByName(pets: Pet[], query: string): Pet[] {
+    if (!query) return pets.slice();
+    return pets.filter(p => p.nome.toLowerCase().includes(query));
+  }
+
+  private getSelectedPets(filtered: Pet[], selectedIds: number[]): Pet[] {
+    return selectedIds
+      .map(id => filtered.find(p => p.id === id))
+      .filter((p): p is Pet => p !== undefined);
+  }
+
+  private getUnselectedPets(filtered: Pet[], selectedIds: number[]): Pet[] {
+    return filtered.filter(p => !selectedIds.includes(p.id));
+  }
 
   onToggle(petId: number, checked: boolean) {
     const current = this.selectedIds() || [];
-    const next = checked ? [...current, petId] : current.filter(id => id !== petId);
+    const next = this.getNextSelectedIds(current, petId, checked);
     this.selectedIds.set(next);
     this.selectedChange.emit(next);
+  }
+
+  private getNextSelectedIds(current: number[], petId: number, checked: boolean): number[] {
+    if (checked) {
+      return [petId, ...current.filter(id => id !== petId)];
+    }
+    return current.filter(id => id !== petId);
   }
 }

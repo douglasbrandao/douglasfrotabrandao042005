@@ -59,4 +59,40 @@ describe('PetSelectorComponent', () => {
     comp.onToggle(10, true);
     expect(emitted).toEqual([10]);
   });
+
+  it('deve manter os pets selecionados sempre no início da lista', () => {
+    const fixture = TestBed.createComponent(PetSelectorComponent);
+    const comp = fixture.componentInstance;
+    const pets: Pet[] = [
+      { id: 1, nome: 'Toto', raca: 'Vira-lata', idade: 3 },
+      { id: 2, nome: 'Mimi', raca: 'SRD', idade: 2 },
+      { id: 3, nome: 'Rex', raca: 'Poodle', idade: 5 }
+    ];
+    comp.pets = pets;
+    comp.selected = [2];
+    fixture.detectChanges();
+
+    // Mimi deve estar no início
+    let ordered = comp.filteredPets();
+    expect(ordered[0].id).toBe(2);
+    expect(ordered.map(p => p.id)).toEqual([2,1,3]);
+
+    // Rex deve ir para o início
+    comp.onToggle(3, true);
+    fixture.detectChanges();
+    ordered = comp.filteredPets();
+    expect(ordered.map(p => p.id)).toEqual([3,2,1]);
+
+    // Toto deve ir para o início
+    comp.onToggle(1, true);
+    fixture.detectChanges();
+    ordered = comp.filteredPets();
+    expect(ordered.map(p => p.id)).toEqual([1,3,2]);
+
+    // Rex deve sair do início
+    comp.onToggle(3, false);
+    fixture.detectChanges();
+    ordered = comp.filteredPets();
+    expect(ordered.map(p => p.id)).toEqual([1,2,3]);
+  });
 });
