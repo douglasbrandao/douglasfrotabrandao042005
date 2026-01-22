@@ -1,8 +1,9 @@
 
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
+import { PetSelectorComponent } from '../../shared/pet-selector/pet-selector.component';
 import { PetService } from '../../services/pet.service';
 import { TutorService } from '../../services/tutor.service';
 import { Router } from '@angular/router';
@@ -11,7 +12,7 @@ import { Pet } from '../../models/pet.model';
 @Component({
   selector: 'app-tutor-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AvatarComponent],
+  imports: [CommonModule, ReactiveFormsModule, AvatarComponent, PetSelectorComponent],
   templateUrl: './tutor-create.component.html',
   styleUrls: ['./tutor-create.component.scss']
 })
@@ -33,13 +34,6 @@ export class TutorCreateComponent {
 
   allPets = signal<Pet[]>([]);
   selectedPets = signal<number[]>([]);
-  petSearch = signal('');
-  filteredPets = computed(() => {
-    const q = this.petSearch().trim().toLowerCase();
-    const all = this.allPets ? this.allPets() : [];
-    if (!q) return all;
-    return all.filter(p => p.nome.toLowerCase().includes(q));
-  });
 
   constructor() {
     this.petService.list({ size: 9999 }).subscribe({
@@ -48,15 +42,9 @@ export class TutorCreateComponent {
     });
   }
 
-  onSelectPets(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    const values = Array.from(select.selectedOptions).map(o => Number(o.value));
-    this.selectedPets.set(values);
-    this.tutorForm.get('pets')?.setValue(values);
-  }
-
-  onPetSearch(query: string) {
-    this.petSearch.set(query);
+  onSelectedChange(ids: number[]) {
+    this.selectedPets.set(ids || []);
+    this.tutorForm.get('pets')?.setValue(ids || []);
   }
 
   submit() {

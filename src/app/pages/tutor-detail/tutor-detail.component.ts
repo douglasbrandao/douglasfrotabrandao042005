@@ -4,8 +4,9 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TutorService } from '../../services/tutor.service';
 import { PetService } from '../../services/pet.service';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
+import { PetSelectorComponent } from '../../shared/pet-selector/pet-selector.component';
 import { ModalComponent } from '../../shared/modal/modal.component';
-import { FormBuilder, ReactiveFormsModule, Validators, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { switchMap, finalize } from 'rxjs/operators';
 import { Pet, Tutor } from '../../models/pet.model';
@@ -13,7 +14,7 @@ import { Pet, Tutor } from '../../models/pet.model';
 @Component({
   selector: 'app-tutor-detail',
   standalone: true,
-  imports: [CommonModule, AvatarComponent, ReactiveFormsModule, ModalComponent, RouterModule],
+  imports: [CommonModule, AvatarComponent, ReactiveFormsModule, ModalComponent, RouterModule, PetSelectorComponent],
   templateUrl: './tutor-detail.component.html',
   styleUrls: ['./tutor-detail.component.scss']
 })
@@ -34,13 +35,6 @@ export class TutorDetailComponent {
 
   allPets = signal<Pet[]>([]);
   selectedPets = signal<number[]>([]);
-  petSearch = signal('');
-  filteredPets = computed(() => {
-    const q = this.petSearch().trim().toLowerCase();
-    const all = this.allPets ? this.allPets() : [];
-    if (!q) return all;
-    return all.filter((p: any) => p.nome.toLowerCase().includes(q));
-  });
 
   constructor() {
     this.editForm = this.fb.group({
@@ -95,15 +89,9 @@ export class TutorDetailComponent {
     });
   }
 
-  onPetSearch(query: string) {
-    this.petSearch.set(query);
-  }
-
-  onSelectPets(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    const values = Array.from(select.selectedOptions).map(o => Number(o.value));
-    this.selectedPets.set(values);
-    this.editForm.get('pets')?.setValue(values);
+  onSelectedChange(ids: number[]) {
+    this.selectedPets.set(ids || []);
+    this.editForm.get('pets')?.setValue(ids || []);
   }
 
   save(): void {

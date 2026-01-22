@@ -38,16 +38,11 @@
       </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Pets</label>
-        <input type="text" class="input-base w-full mb-2" placeholder="Buscar pet..." (input)="onPetSearch($event.target.value)" />
         <div class="rounded-xl p-3 bg-gray-50">
           <div class="mb-3">
             <span class="text-sm text-[var(--color-secondary)]/70">Pets disponíveis</span>
           </div>
-          <select multiple class="input-base w-full bg-white h-40" (change)="onSelectPets($event)">
-            @for (pet of filteredPets(); track pet.id) {
-              <option [value]="pet.id" [selected]="selectedPets().includes(pet.id)">{{ pet.nome }}</option>
-            }
-          </select>
+          <app-pet-selector [pets]="allPets()" [selected]="selectedPets()" (selectedChange)="onSelectedChange($event)"></app-pet-selector>
           @if (selectedPets().length === 0) {
             <div class="text-xs text-[var(--color-secondary)]/60 mt-1">Nenhum pet selecionado</div>
           } @else {
