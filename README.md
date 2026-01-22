@@ -72,9 +72,26 @@ Observações:
 - O `docker-compose.yml` mapeia a porta `8080` do host para `80` do container — acesse `http://localhost:8080`.
 - A imagem final contém apenas os assets estáticos e Nginx. O `HEALTHCHECK` consulta `/health`.
 
+---
+
 ## Testes
 
 ```bash
 # executar testes unitários localmente
 ng test
 ```
+
+## Justificativas de Arquitetura
+
+### Angular
+
+Angular foi escolhido como framework principal pois um dos requisitos do projeto era o uso de TypeScript, e o Angular já traz suporte nativo e completo à linguagem. Além disso, por exigir clean code e padronização, o Angular se destaca por ser um framework opinativo, com arquitetura bem definida, CLI robusta e práticas recomendadas de mercado, facilitando a manutenção e escalabilidade do projeto.
+
+### Vitest
+
+Vitest foi escolhido para testes unitários por ser uma ferramenta moderna, rápida e já vir como padrão no Angular 21. Isso garante integração nativa, e facilidade de configuração.
+
+### Outras decisões técnicas
+
+- Standalone Components: adotados para reduzir boilerplate e simplificar a estrutura dos módulos.
+- RxJS e Signals: para gerenciamento reativo de estado e melhor performance.
