@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TutorService } from './tutor.service';
-import { Tutor, TutorListResponse } from '../models/pet.model';
+import { Tutor, TutorListResponse } from '../models/tutor.model';
 
 describe('TutorService', () => {
   let service: TutorService;

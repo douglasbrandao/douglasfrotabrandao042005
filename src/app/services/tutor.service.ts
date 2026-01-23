@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Tutor, TutorListResponse, TutorFilterParams } from '../models/pet.model';
+import { Tutor, TutorListResponse, TutorFilterParams } from '../models/tutor.model';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({

@@ -1,3 +1,5 @@
+import type { Tutor } from './tutor.model';
+
 export interface PetFoto {
   id: number;
   nome: string;
@@ -14,17 +16,6 @@ export interface Pet {
   tutores?: Tutor[];
 }
 
-export interface Tutor {
-  id: number;
-  nome: string;
-  email: string;
-  telefone: string;
-  endereco: string;
-  cpf: number;
-  foto?: PetFoto;
-  pets?: Pet[];
-}
-
 export interface PetListResponse {
   content: Pet[];
   total: number;
@@ -38,19 +29,4 @@ export interface PetFilterParams {
   raca?: string;
   page?: number;
   size?: number;
-}
-
-export interface TutorFilterParams {
-  nome?: string;
-  email?: string;
-  page?: number;
-  size?: number;
-}
-
-export interface TutorListResponse {
-  content: Tutor[];
-  total: number;
-  page: number;
-  size: number;
-  pageCount: number;
 }

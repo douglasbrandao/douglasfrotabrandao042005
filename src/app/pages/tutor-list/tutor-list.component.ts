@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
 import { Router } from '@angular/router';
 import { TutorService } from '../../services/tutor.service';
-import { Tutor, TutorListResponse } from '../../models/pet.model';
+import { Tutor, TutorListResponse } from '../../models/tutor.model';
 import { usePagination } from '../../shared/use-pagination';
 import { PaginationComponent } from '../../shared/pagination/pagination.component';
 import { DebounceDirective } from '../../shared/debounce/debounce.directive';
