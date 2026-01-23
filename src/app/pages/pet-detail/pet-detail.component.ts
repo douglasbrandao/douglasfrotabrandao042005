@@ -7,7 +7,8 @@ import { AvatarComponent } from '../../shared/avatar/avatar.component';
 import { ActivatedRoute, RouterModule, RouterLink } from '@angular/router';
 import { PetService } from '../../services/pet.service';
 import { TutorService } from '../../services/tutor.service';
-import { Pet, Tutor } from '../../models/pet.model';
+import { Pet } from '../../models/pet.model';
+import { Tutor } from '../../models/tutor.model';
 
 @Component({
   selector: 'app-pet-detail',

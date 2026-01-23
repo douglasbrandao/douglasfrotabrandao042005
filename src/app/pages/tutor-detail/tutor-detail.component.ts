@@ -9,7 +9,8 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { FormBuilder, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { switchMap, finalize } from 'rxjs/operators';
-import { Pet, Tutor } from '../../models/pet.model';
+import { Pet } from '../../models/pet.model';
+import { Tutor } from '../../models/tutor.model';
 
 @Component({
   selector: 'app-tutor-detail',
