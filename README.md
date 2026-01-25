@@ -24,6 +24,10 @@ src/
 └── environments/
 ```
 
+Conexão dos componentes reutilizáveis com os componentes principais do projeto:
+
+![Diagrama de componentes reutilizáveis](docs/images/components.jpeg)
+
 Arquivos importantes:
 
 - Dockerfile — multi-stage build para gerar imagem final com Nginx
