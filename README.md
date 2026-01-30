@@ -33,7 +33,7 @@ Arquivos importantes:
 - Dockerfile — multi-stage build para gerar imagem final com Nginx
 - docker/nginx/default.conf — config do Nginx (SPA + Health Check)
 - docker-compose.yml — build
-- Makefile: `make up`, `make down`, `make logs`, `make health`
+- Docker Compose: `docker compose up`, `docker compose down`, `docker compose logs`, `docker compose ps`
 
 ## Como executar
 
@@ -60,16 +60,16 @@ npm run build -- --configuration=production
 
 ```bash
 # sobe a imagem e inicia os containers
-make up
+docker compose up --build -d
 
-# logs
-make logs
+# ver logs
+docker compose logs -f
 
 # health
-make health
+docker compose ps
 
 # derrubar
-make down
+docker compose down
 ```
 
 Observações:
