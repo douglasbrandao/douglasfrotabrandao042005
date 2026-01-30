@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
 import { ActivatedRoute, RouterModule, RouterLink, Router } from '@angular/router';
@@ -19,6 +20,7 @@ export class PetDetailComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private petService = inject(PetService);
+  private title = inject(Title);
 
   pet = signal<Pet | null>(null);
   tutors = signal<Tutor[]>([]);
@@ -48,6 +50,7 @@ export class PetDetailComponent {
     this.petService.getById(id).subscribe({
       next: (pet: Pet) => {
         this.pet.set(pet);
+        this.title.setTitle(`Pet: ${pet.nome || 'Sem nome'} | Pet Manager`);
         this.loading.set(false);
         this.editForm.patchValue({
           nome: pet.nome || '',
@@ -90,6 +93,7 @@ export class PetDetailComponent {
               this.petService.getById(id).subscribe({
                 next: (updatedPet: Pet) => {
                   this.pet.set(updatedPet);
+                  this.title.setTitle(`Pet: ${updatedPet.nome || 'Sem nome'} | Pet Manager`);
                   this.avatarPreview.set(null);
                   this.avatarFile = null;
                   this.closeEditModal();
@@ -105,6 +109,7 @@ export class PetDetailComponent {
           });
         } else {
           this.pet.set(updatedPet);
+          this.title.setTitle(`Pet: ${updatedPet.nome || 'Sem nome'} | Pet Manager`);
           this.closeEditModal();
         }
       },
