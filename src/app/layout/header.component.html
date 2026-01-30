@@ -1,13 +1,37 @@
-
 <header class="header-base flex items-center justify-between gap-4">
   <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--color-secondary)] tracking-tight">
     <a routerLink="/home" class="text-inherit">Pet Manager</a>
   </h1>
   @if (authService.token()) {
-    <div class="flex flex-col sm:flex-row gap-2">
+    <div class="hidden md:flex flex-row gap-2">
       <button (click)="goToCreatePet()" class="btn-primary">Cadastrar pet</button>
       <button (click)="goToCreateTutor()" class="btn-primary">Cadastrar tutor</button>
       <button (click)="logout()" class="btn-secondary">Sair</button>
+    </div>
+    <div class="md:hidden relative">
+      <button
+        type="button"
+        (click)="menuOpen.set(!menuOpen())"
+        class="p-2 rounded-lg border-2 border-[var(--color-primary)] text-[var(--color-secondary)] hover:bg-[var(--color-primary)]/20 transition-colors"
+        aria-label="Abrir menu"
+        [attr.aria-expanded]="menuOpen()">
+        @if (menuOpen()) {
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        } @else {
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        }
+      </button>
+      @if (menuOpen()) {
+        <div class="absolute right-0 top-full mt-2 py-2 px-2 w-48 rounded-xl bg-white/95 backdrop-blur border border-[var(--color-primary)] shadow-xl z-50 flex flex-col gap-1 box-border">
+          <button (click)="goToCreatePet()" class="btn-primary w-full min-w-0 text-left px-3 py-2.5 rounded-lg">Cadastrar pet</button>
+          <button (click)="goToCreateTutor()" class="btn-primary w-full min-w-0 text-left px-3 py-2.5 rounded-lg">Cadastrar tutor</button>
+          <button (click)="logout()" class="btn-secondary w-full min-w-0 text-left px-3 py-2.5 rounded-lg">Sair</button>
+        </div>
+      }
     </div>
   }
 </header>
