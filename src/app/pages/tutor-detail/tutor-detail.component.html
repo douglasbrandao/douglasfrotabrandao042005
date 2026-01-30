@@ -1,12 +1,12 @@
-<div class="min-h-screen px-2 sm:px-6">
-  <div class="max-w-3xl mx-auto">
-    <div class="flex items-center gap-4 mb-8">
-      <button (click)="back()" class="btn-secondary">← Voltar</button>
-      <button (click)="openEdit()" class="btn-primary">Editar tutor</button>
+<div class="min-h-screen px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8 mt-4 sm:mt-6">
+      <button (click)="back()" class="btn-secondary min-h-[44px] sm:min-h-0">← Voltar</button>
+      <button (click)="openEdit()" class="btn-primary min-h-[44px] sm:min-h-0">Editar tutor</button>
     </div>
 
     @if (loading()) {
-      <div class="flex justify-center items-center py-12 text-lg text-[var(--color-secondary)]">Carregando...</div>
+      <div class="flex justify-center items-center py-12 sm:py-16 text-base sm:text-lg text-[var(--color-secondary)]">Carregando...</div>
     }
 
     @if (errorMessage()) {
@@ -14,19 +14,19 @@
     }
 
     @if (!loading() && tutor()) {
-      <div class="card-base bg-white w-full max-w-2xl mx-auto p-10 flex flex-col items-center gap-8 shadow-2xl mb-12">
-          <h1 class="text-5xl font-extrabold text-[var(--color-secondary)] text-center mb-2">{{ tutor()?.nome ?? '' }}</h1>
+      <div class="card-base bg-white w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto p-6 sm:p-8 lg:p-10 flex flex-col items-center gap-6 sm:gap-8 shadow-2xl mb-8 sm:mb-12">
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--color-secondary)] text-center mb-2 truncate w-full min-w-0 capitalize" [title]="tutor()?.nome ?? ''">{{ tutor()?.nome ?? '' }}</h1>
           <app-avatar [src]="avatarSrc()" [alt]="tutor()?.nome ?? ''" size="lg">Sem foto</app-avatar>
-            <div class="w-full flex flex-col gap-1 text-[var(--color-secondary)]/90 text-lg">
-            <p><span class="font-semibold">Telefone:</span> {{ tutor()?.telefone }}</p>
-            <p><span class="font-semibold">Endereço:</span> {{ tutor()?.endereco ?? '' }}</p>
+            <div class="w-full min-w-0 flex flex-col gap-1 text-[var(--color-secondary)]/90 text-base sm:text-lg">
+            <p class="truncate capitalize" [title]="tutor()?.telefone"><span class="font-semibold">Telefone:</span> {{ tutor()?.telefone }}</p>
+            <p class="break-words capitalize" [title]="tutor()?.endereco ?? ''"><span class="font-semibold">Endereço:</span> {{ tutor()?.endereco ?? '' }}</p>
           </div>
           @if ((tutor()?.pets ?? []).length > 0) {
-          <div class="w-full border-t pt-6 mt-4">
-            <h2 class="text-2xl font-bold text-[var(--color-primary)] mb-2">Pets</h2>
-            <ul class="list-disc ml-5 mt-2 text-[var(--color-secondary)]/80">
+          <div class="w-full min-w-0 border-t border-[var(--color-primary)]/30 pt-4 sm:pt-6 mt-2 sm:mt-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-[var(--color-primary)] mb-2">Pets</h2>
+            <ul class="list-disc ml-4 sm:ml-5 mt-2 text-[var(--color-secondary)]/80 space-y-1 text-sm sm:text-base">
                 @for (p of tutor()?.pets ?? []; track p?.id) {
-                <li>
+                <li class="break-words capitalize">
                     <a [routerLink]="['/pet', p?.id]" class="text-[var(--color-primary)] hover:underline">{{ p?.nome ?? '' }}</a>
                     <span class="text-[var(--color-secondary)]/70"> — {{ p?.raca ?? '' }}</span>
                 </li>

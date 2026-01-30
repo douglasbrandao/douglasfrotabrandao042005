@@ -1,12 +1,12 @@
-<div class="min-h-screen px-2 sm:px-6">
-  <div class="max-w-4xl mx-auto">
-    <h2 class="text-2xl font-bold text-[var(--color-secondary)] my-6">Tutores</h2>
+<div class="min-h-screen px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl sm:text-3xl font-bold text-[var(--color-secondary)] mt-4 sm:mt-6 mb-4">Tutores</h2>
 
-    <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 mt-4 text-center sm:text-left">
-      <div class="flex flex-1 justify-center sm:justify-start w-full">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+      <div class="w-full sm:max-w-sm">
         <input
           type="text"
-          class="input-base flex-1 max-w-xs"
+          class="input-base w-full"
           placeholder="Buscar por nome do tutor..."
           [value]="searchName()"
           debounce
@@ -17,7 +17,7 @@
     </div>
 
     @if (loading()) {
-      <div class="flex justify-center items-center py-12 text-lg text-[var(--color-secondary)]">Carregando...</div>
+      <div class="flex justify-center items-center py-12 sm:py-16 text-base sm:text-lg text-[var(--color-secondary)]">Carregando...</div>
     }
 
     @if (errorMessage()) {
@@ -25,29 +25,29 @@
     }
 
     @if (!loading() && tutors().length === 0) {
-      <div class="text-center text-[var(--color-secondary)]/80 py-12">Nenhum tutor encontrado.</div>
+      <div class="text-center text-[var(--color-secondary)]/80 py-12 sm:py-16 text-sm sm:text-base">Nenhum tutor encontrado.</div>
     }
 
     @if (!loading() && tutors().length > 0) {
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6">
         @for (tutor of tutors(); track tutor.id) {
-          <div class="card-base flex flex-col sm:flex-row items-center gap-4 p-4 sm:p-6 w-full max-w-md mx-auto">
-            <div class="flex-shrink-0">
+          <article class="card-base flex flex-col lg:flex-row lg:items-center gap-3 sm:gap-4 p-4 sm:p-6 w-full min-w-0">
+            <div class="flex-shrink-0 flex justify-center lg:justify-start">
               <app-avatar [src]="tutor.foto?.url ?? null" [alt]="tutor.nome || ''" size="md">Sem foto</app-avatar>
             </div>
-            <div class="flex-1 min-w-0 text-left">
-              <h3 class="text-xl font-bold text-[var(--color-secondary)] truncate">{{ tutor.nome }}</h3>
-              <p class="text-[var(--color-secondary)]/80"><span class="font-semibold">Telefone:</span> {{ tutor.telefone }}</p>
-              <p class="text-[var(--color-secondary)]/80"><span class="font-semibold">Endereço:</span> {{ tutor.endereco }}</p>
+            <div class="flex-1 min-w-0 text-center lg:text-left">
+              <h3 class="text-lg sm:text-xl font-bold text-[var(--color-secondary)] truncate capitalize" [title]="tutor.nome">{{ tutor.nome }}</h3>
+              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base truncate capitalize" [title]="tutor.telefone"><span class="font-semibold">Telefone:</span> {{ tutor.telefone }}</p>
+              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base line-clamp-2 break-words capitalize" [title]="tutor.endereco"><span class="font-semibold">Endereço:</span> {{ tutor.endereco }}</p>
             </div>
-            <div class="flex flex-col gap-2">
-              <button (click)="viewDetails(tutor.id)" class="btn-primary">Ver</button>
+            <div class="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-end">
+              <button (click)="viewDetails(tutor.id)" class="btn-primary w-full lg:w-auto min-h-[44px] lg:min-h-0 px-6">Ver</button>
             </div>
-          </div>
+          </article>
         }
       </div>
       @if (pagination.totalPages() > 1) {
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 mb-16">
+        <div class="flex flex-wrap justify-center items-center gap-3 sm:gap-4 mt-8 sm:mt-10 mb-8 sm:mb-16">
           <app-pagination
             [currentPage]="pagination.currentPage()"
             [totalPages]="pagination.totalPages()"
