@@ -36,12 +36,9 @@
               <app-avatar [src]="pet.foto?.url ?? null" [alt]="pet.nome || ''" size="md">Sem foto</app-avatar>
             </div>
             <div class="flex-1 min-w-0 text-center lg:text-left">
-              <h3 class="text-lg sm:text-xl font-bold text-[var(--color-secondary)] truncate capitalize" [title]="pet.nome">{{ pet.nome }}</h3>
-              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base truncate capitalize" [title]="pet.raca"><span class="font-semibold">Raça:</span> {{ pet.raca }}</p>
-              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base capitalize"><span class="font-semibold">Idade:</span> {{ pet.idade }} anos</p>
-              @if (pet.tutores && pet.tutores.length > 0) {
-                <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base truncate capitalize" [title]="pet.tutores[0].nome"><span class="font-semibold">Tutor:</span> {{ pet.tutores[0].nome }}</p>
-              }
+              <h3 class="text-lg sm:text-xl font-bold text-[var(--color-secondary)] truncate capitalize" [title]="pet.nome || 'Sem nome'">{{ pet.nome || 'Sem nome' }}</h3>
+              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base truncate capitalize" [title]="pet.raca || 'Sem raça'"><span class="font-semibold">Raça:</span> {{ pet.raca || 'Sem raça' }}</p>
+              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base capitalize"><span class="font-semibold">Idade:</span> {{ pet.idade != null ? (pet.idade + ' anos') : 'Sem idade' }}</p>
             </div>
             <div class="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-end">
               <button (click)="viewDetails(pet.id)" class="btn-primary w-full lg:w-auto min-h-[44px] lg:min-h-0 px-6">Ver Pet</button>
