@@ -15,26 +15,29 @@
 
     @if (!loading() && tutor()) {
       <div class="card-base bg-white w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto p-6 sm:p-8 lg:p-10 flex flex-col items-center gap-6 sm:gap-8 shadow-2xl mb-8 sm:mb-12">
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--color-secondary)] text-center mb-2 truncate w-full min-w-0 capitalize" [title]="tutor()?.nome ?? ''">{{ tutor()?.nome ?? '' }}</h1>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--color-secondary)] text-center mb-2 truncate w-full min-w-0 capitalize" [title]="tutor()?.nome || 'Sem nome'">{{ tutor()?.nome || 'Sem nome' }}</h1>
           <app-avatar [src]="avatarSrc()" [alt]="tutor()?.nome ?? ''" size="lg">Sem foto</app-avatar>
             <div class="w-full min-w-0 flex flex-col gap-1 text-[var(--color-secondary)]/90 text-base sm:text-lg">
-            <p class="truncate capitalize" [title]="tutor()?.telefone"><span class="font-semibold">Telefone:</span> {{ tutor()?.telefone }}</p>
-            <p class="break-words capitalize" [title]="tutor()?.endereco ?? ''"><span class="font-semibold">Endereço:</span> {{ tutor()?.endereco ?? '' }}</p>
+            <p class="truncate capitalize" [title]="tutor()?.telefone || 'Sem telefone'"><span class="font-semibold">Telefone:</span> {{ tutor()?.telefone || 'Sem telefone' }}</p>
+            <p class="break-words capitalize" [title]="tutor()?.endereco || 'Sem endereço'"><span class="font-semibold">Endereço:</span> {{ tutor()?.endereco || 'Sem endereço' }}</p>
           </div>
-          @if ((tutor()?.pets ?? []).length > 0) {
           <div class="w-full min-w-0 border-t border-[var(--color-primary)]/30 pt-4 sm:pt-6 mt-2 sm:mt-4">
             <h2 class="text-xl sm:text-2xl font-bold text-[var(--color-primary)] mb-2">Pets</h2>
+            @if ((tutor()?.pets ?? []).length > 0) {
             <ul class="list-disc ml-4 sm:ml-5 mt-2 text-[var(--color-secondary)]/80 space-y-1 text-sm sm:text-base">
                 @for (p of tutor()?.pets ?? []; track p?.id) {
                 <li class="break-words capitalize">
-                    <a [routerLink]="['/pet', p?.id]" class="text-[var(--color-primary)] hover:underline">{{ p?.nome ?? '' }}</a>
-                    <span class="text-[var(--color-secondary)]/70"> — {{ p?.raca ?? '' }}</span>
+                    <a [routerLink]="['/pet', p?.id]" class="text-[var(--color-primary)] hover:underline">{{ p?.nome || 'Sem nome' }}</a>
+                    <span class="text-[var(--color-secondary)]/70"> — {{ p?.raca || 'Sem raça' }}</span>
                 </li>
               }
             </ul>
+            } @else {
+              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base mt-2">Nenhum pet vinculado.</p>
+            }
           </div>
-        }
       </div>
+    }
 
       @if (showEdit()) {
         <app-modal [open]="showEdit()" (close)="closeEdit()">
@@ -85,6 +88,5 @@
           </div>
         </app-modal>
       }
-    }
   </div>
 </div>

@@ -36,9 +36,9 @@
               <app-avatar [src]="tutor.foto?.url ?? null" [alt]="tutor.nome || ''" size="md">Sem foto</app-avatar>
             </div>
             <div class="flex-1 min-w-0 text-center lg:text-left">
-              <h3 class="text-lg sm:text-xl font-bold text-[var(--color-secondary)] truncate capitalize" [title]="tutor.nome">{{ tutor.nome }}</h3>
-              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base truncate capitalize" [title]="tutor.telefone"><span class="font-semibold">Telefone:</span> {{ tutor.telefone }}</p>
-              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base line-clamp-2 break-words capitalize" [title]="tutor.endereco"><span class="font-semibold">Endereço:</span> {{ tutor.endereco }}</p>
+              <h3 class="text-lg sm:text-xl font-bold text-[var(--color-secondary)] truncate capitalize" [title]="tutor.nome || 'Sem nome'">{{ tutor.nome || 'Sem nome' }}</h3>
+              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base truncate capitalize" [title]="tutor.telefone || 'Sem telefone'"><span class="font-semibold">Telefone:</span> {{ tutor.telefone || 'Sem telefone' }}</p>
+              <p class="text-[var(--color-secondary)]/80 text-sm sm:text-base line-clamp-2 break-words capitalize" [title]="tutor.endereco || 'Sem endereço'"><span class="font-semibold">Endereço:</span> {{ tutor.endereco || 'Sem endereço' }}</p>
             </div>
             <div class="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-end">
               <button (click)="viewDetails(tutor.id)" class="btn-primary w-full lg:w-auto min-h-[44px] lg:min-h-0 px-6">Ver</button>
