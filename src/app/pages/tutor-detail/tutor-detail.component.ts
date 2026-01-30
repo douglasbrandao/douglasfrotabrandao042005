@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TutorService } from '../../services/tutor.service';
 import { PetService } from '../../services/pet.service';
@@ -25,6 +26,7 @@ export class TutorDetailComponent {
   private tutorService = inject(TutorService);
   private petService = inject(PetService);
   private fb = inject(FormBuilder);
+  private title = inject(Title);
 
   tutorId!: number;
   loading = signal(false);
@@ -65,6 +67,7 @@ export class TutorDetailComponent {
     this.tutorService.getById(this.tutorId).subscribe({
       next: (t: Tutor) => {
         this.tutor.set(t);
+        this.title.setTitle(`Tutor: ${t.nome || 'Sem nome'} | Pet Manager`);
           this.editForm.patchValue({
             nome: t.nome || '',
             telefone: t.telefone || '',
