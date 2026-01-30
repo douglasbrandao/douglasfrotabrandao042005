@@ -1,12 +1,10 @@
-import { Location } from '@angular/common';
 import { Component, inject, signal, computed } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { AvatarComponent } from '../../shared/avatar/avatar.component';
-import { ActivatedRoute, RouterModule, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterModule, RouterLink, Router } from '@angular/router';
 import { PetService } from '../../services/pet.service';
-import { TutorService } from '../../services/tutor.service';
 import { Pet } from '../../models/pet.model';
 import { Tutor } from '../../models/tutor.model';
 
@@ -18,10 +16,9 @@ import { Tutor } from '../../models/tutor.model';
   styleUrls: ['./pet-detail.component.scss']
 })
 export class PetDetailComponent {
-  private location = inject(Location);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private petService = inject(PetService);
-  private tutorService = inject(TutorService);
 
   pet = signal<Pet | null>(null);
   tutors = signal<Tutor[]>([]);
@@ -67,10 +64,6 @@ export class PetDetailComponent {
         this.loading.set(false);
       }
     });
-  }
-
-  goBack() {
-    this.location.back();
   }
 
   openEditModal() {
@@ -136,4 +129,8 @@ export class PetDetailComponent {
   }
 
   avatarSrc = computed(() => this.avatarPreview() || this.pet()?.foto?.url || null);
+
+  back(): void {
+    this.router.navigate(['/pets']);
+  }
 }
