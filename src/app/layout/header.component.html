@@ -4,7 +4,7 @@
     <a routerLink="/home" class="text-inherit">Pet Manager</a>
   </h1>
   @if (authService.token()) {
-    <div class="flex gap-2">
+    <div class="flex flex-col sm:flex-row gap-2">
       <button (click)="goToCreatePet()" class="btn-primary">Cadastrar pet</button>
       <button (click)="goToCreateTutor()" class="btn-primary">Cadastrar tutor</button>
       <button (click)="logout()" class="btn-secondary">Sair</button>
