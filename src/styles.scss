@@ -43,8 +43,7 @@ html, body {
 
 // Utilitários de Card
 .card-base {
-  @apply backdrop-blur-xl bg-white/70 border border-[var(--color-primary)] rounded-3xl shadow-2xl w-full max-w-md sm:p-10 p-4 relative overflow-visible;
-  @apply break-words break-all hyphens-auto whitespace-normal;
+  @apply backdrop-blur-xl bg-white/70 border border-[var(--color-primary)] rounded-3xl shadow-2xl w-full sm:p-10 p-4 relative overflow-visible;
 }
 
 // Utilitários de Input
